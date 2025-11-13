@@ -4,6 +4,7 @@ resolver = '2'
 members = [
 	'libs/apis/user',
 	'libs/apis/project',
+	'apps/zerg/api',
 ]
 
 [profile.release]

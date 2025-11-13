@@ -9,3 +9,7 @@ version = "0.1.0"
 [[package]]
 name = "apis_user"
 version = "0.1.0"
+
+[[package]]
+name = "zerg_api"
+version = "0.1.0"
