@@ -1,11 +1,16 @@
 {
   "mcpServers": {
-    "nx-mcp": {
-      "type": "stdio",
+    "context7": {
       "command": "npx",
       "args": [
-        "nx",
-        "mcp"
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": [
+        "@browsermcp/mcp@latest"
       ]
     }
   }
