@@ -1,6 +1,10 @@
+
 [workspace]
-resolver = "2"
-members = []
+resolver = '2'
+members = [
+	'libs/apis/user',
+	'libs/apis/project',
+]
 
 [profile.release]
 lto = true
