@@ -42,3 +42,16 @@ Thumbs.db
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+.env
+
+# Postman/Newman reports
+**/postman/reports
+
+# Generated OpenAPI specs (fetch from server)
+**/postman/openapi.json
+
+# Generated Postman collections (auto-generated from OpenAPI)
+**/postman/*-generated.postman_collection.json

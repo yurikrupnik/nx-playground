@@ -1,0 +1,41 @@
+// Database Schema
+// Auto-generated from SeaORM entities on 2025-11-16 20:05:17 UTC
+
+Table authors {
+  id uuid [pk]
+  name varchar [not null]
+  bio varchar
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+}
+
+Table users {
+  id uuid [pk]
+  username varchar [unique, not null]
+  email varchar [unique, not null]
+  password_hash varchar [not null]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+}
+
+Table todos {
+  id uuid [pk]
+  name varchar [not null]
+  description varchar
+  completed boolean [not null]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+}
+
+Table books {
+  id uuid [pk]
+  title varchar [not null]
+  description varchar
+  author_id uuid [not null]
+  published_date date
+  isbn varchar
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+}
+
+Ref: books.author_id > authors.id

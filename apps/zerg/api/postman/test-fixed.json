@@ -1,0 +1,3740 @@
+{
+  "_": {
+    "postman_id": "ea26924c-b9d7-49c9-8e8e-72c494cdcf21"
+  },
+  "item": [
+    {
+      "id": "54f8d779-5c7f-468d-bb26-6747be935b85",
+      "name": "authors",
+      "description": {
+        "content": "Author management endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "404acfe3-3c42-43a8-a7a0-297b4ac79260",
+          "name": "List all authors with optional field selection",
+          "request": {
+            "name": "List all authors with optional field selection",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "authors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to include (e.g., id,name)",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "voluptate mollit"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "11b45b90-27cd-4728-b3e5-58c012e57777",
+              "name": "List of authors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include (e.g., id,name)",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"urn:uuid:dce68054-a48a-f189-36a1-b55f1ad0eb57\",\n    \"name\": \"nostrud\",\n    \"created_at\": \"1992-04-18T02:37:34.576Z\",\n    \"updated_at\": \"2004-01-19T22:05:45.109Z\",\n    \"bio\": null\n  },\n  {\n    \"id\": \"urn:uuid:275a43ca-9186-2948-859f-8f123afc1fca\",\n    \"name\": \"exercitation\",\n    \"created_at\": \"1971-08-27T06:47:52.557Z\",\n    \"updated_at\": \"2023-04-15T07:22:43.796Z\",\n    \"bio\": \"ad in sint\"\n  }\n]",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "aa8e470c-93ba-42d1-9344-8cfa88ea557b",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/authors - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/authors - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/authors - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/authors - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "270d77f6-1ec4-4658-98f0-deeac43ceee7",
+          "name": "Create a new author",
+          "request": {
+            "name": "Create a new author",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "authors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"J.K. Rowling\",\n  \"bio\": \"British author, best known for the Harry Potter series\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "186f5078-112f-4555-b54c-de667c62d569",
+              "name": "Author created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"J.K. Rowling\",\n  \"bio\": \"British author, best known for the Harry Potter series\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:67280b40-922a-8da4-3bf3-15cb3106c51e\",\n  \"name\": \"enim\",\n  \"created_at\": \"2012-02-05T12:07:20.641Z\",\n  \"updated_at\": \"2023-05-13T00:09:37.064Z\",\n  \"bio\": \"anim ipsum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "f223deda-991a-4823-a603-0c4115fd7bb2",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"J.K. Rowling\",\n  \"bio\": \"British author, best known for the Harry Potter series\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "5e24638f-ec00-4700-a548-b48ce47c6653",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/api/authors - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[POST]::/api/authors - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[POST]::/api/authors - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[POST]::/api/authors - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24d2d939-b18f-477a-944b-11d435b5ac5b",
+          "name": "Get a single author by ID",
+          "request": {
+            "name": "Get a single author by ID",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "authors",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to include",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "voluptate mollit"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Author ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "995635c0-1e95-4609-854b-7891e02e0f0b",
+              "name": "Author found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:67280b40-922a-8da4-3bf3-15cb3106c51e\",\n  \"name\": \"enim\",\n  \"created_at\": \"2012-02-05T12:07:20.641Z\",\n  \"updated_at\": \"2023-05-13T00:09:37.064Z\",\n  \"bio\": \"anim ipsum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "78059496-5bb7-4b18-89da-d6ce7eb0fc14",
+              "name": "Author not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d7f2d842-0a74-435b-99e3-52b964cc02bb",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/authors/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/authors/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/authors/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/authors/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f970de9f-dad0-4a17-9d55-32cce2782c5e",
+          "name": "Update an author",
+          "request": {
+            "name": "Update an author",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "authors",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Author ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bio\": \"British author and philanthropist\",\n  \"name\": \"J.K. Rowling\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "01072853-268e-4ae4-8a4b-4ffe1d0d7e1f",
+              "name": "Author updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bio\": \"British author and philanthropist\",\n  \"name\": \"J.K. Rowling\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:67280b40-922a-8da4-3bf3-15cb3106c51e\",\n  \"name\": \"enim\",\n  \"created_at\": \"2012-02-05T12:07:20.641Z\",\n  \"updated_at\": \"2023-05-13T00:09:37.064Z\",\n  \"bio\": \"anim ipsum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "da14e567-e4b6-4fa3-871d-bef30bc78bea",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bio\": \"British author and philanthropist\",\n  \"name\": \"J.K. Rowling\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "1bc2d6c2-6157-414d-9e0d-8c1cafeb763f",
+              "name": "Author not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bio\": \"British author and philanthropist\",\n  \"name\": \"J.K. Rowling\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "60ccf10e-d553-4ae5-b224-1cc591a5707f",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[PUT]::/api/authors/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[PUT]::/api/authors/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[PUT]::/api/authors/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[PUT]::/api/authors/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "660996c8-e4fd-4dc9-987c-62e489a5622d",
+          "name": "Delete an author",
+          "request": {
+            "name": "Delete an author",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "authors",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Author ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "e88e6ce8-8730-48a3-a3a7-73afcdfdb9c6",
+              "name": "Author deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "54d4fc92-ca71-4020-b219-806139bcae0e",
+              "name": "Author not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "authors",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "7ff75fb6-8e42-4c33-a015-22e0f5bf6634",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/api/authors/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response has empty Body \npm.test(\"[DELETE]::/api/authors/:id - Response has empty Body\", function () {\n    pm.response.to.not.be.withBody;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4786c088-74ff-4e37-8622-720459cde1cb",
+      "name": "books",
+      "description": {
+        "content": "Book management endpoints (with FK relationships)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3f4a9eb7-8f97-4514-84d1-8a9a84da11b3",
+          "name": "List all books with optional field selection",
+          "request": {
+            "name": "List all books with optional field selection",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to include (e.g., id,title,author_id)",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "voluptate mollit"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter by author ID",
+                    "type": "text/plain"
+                  },
+                  "key": "author_id",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "4c6ccf60-31d2-49c5-8043-4fdd38ca41f7",
+              "name": "List of books",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include (e.g., id,title,author_id)",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter by author ID",
+                        "type": "text/plain"
+                      },
+                      "key": "author_id",
+                      "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"8e56b532-e204-1e5c-5aab-e9cebbe6b398\",\n    \"title\": \"deserunt proident\",\n    \"author_id\": \"23c74aed-cf76-db26-ad63-3cede1e232a1\",\n    \"created_at\": \"1967-09-25T17:45:57.576Z\",\n    \"updated_at\": \"1955-05-19T18:50:03.466Z\",\n    \"description\": null,\n    \"isbn\": null,\n    \"published_date\": \"1974-01-13\"\n  },\n  {\n    \"id\": \"db4364e1-85f2-61bb-3617-0b94267c6207\",\n    \"title\": \"mollit tempor eu\",\n    \"author_id\": \"urn:uuid:05ec8ddb-ae27-270d-cbf5-4628e905d05a\",\n    \"created_at\": \"2014-01-15T00:18:50.645Z\",\n    \"updated_at\": \"1982-10-02T15:14:09.289Z\",\n    \"description\": null,\n    \"isbn\": \"dolor\",\n    \"published_date\": \"2016-09-03\"\n  }\n]",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cba731b5-9fe4-4438-bbf3-067f99343ec1",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/books - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/books - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/books - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\"],\"properties\":{\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID (foreign key reference)\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/books - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e56d178-3a8f-42dc-9ce8-380ab56809b1",
+          "name": "Create a new book",
+          "request": {
+            "name": "Create a new book",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Harry Potter and the Philosopher's Stone\",\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"The first novel in the Harry Potter series\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "eea5c982-3f44-49ff-8c0a-4728c1e72f86",
+              "name": "Book created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Harry Potter and the Philosopher's Stone\",\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"The first novel in the Harry Potter series\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"1c3af8df-fe3a-cb74-95a5-c2924644ae80\",\n  \"title\": \"nulla officia aliqua\",\n  \"author_id\": \"88c13f18-e66f-cbba-b3c4-c0cc4fc28875\",\n  \"created_at\": \"1948-04-28T22:11:02.718Z\",\n  \"updated_at\": \"2020-01-02T11:58:32.632Z\",\n  \"description\": \"magna dolor do\",\n  \"isbn\": \"eu cillum Lorem Duis\",\n  \"published_date\": null\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "0676e30f-27c0-4efa-9c86-69393f8dcf78",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Harry Potter and the Philosopher's Stone\",\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"The first novel in the Harry Potter series\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "15eb7e1b-fb78-406f-98ee-77c6fb844abd",
+              "name": "Author not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Harry Potter and the Philosopher's Stone\",\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"The first novel in the Harry Potter series\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "763ff3d3-867b-4792-80a3-117b1332a262",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/api/books - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[POST]::/api/books - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[POST]::/api/books - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\"],\"properties\":{\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID (foreign key reference)\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[POST]::/api/books - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ecaa1b3-7e68-4acf-b0dc-52e078f07444",
+          "name": "List all books WITH their author information (joined query)",
+          "request": {
+            "name": "List all books WITH their author information (joined query)",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books",
+                "with-authors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter by author ID",
+                    "type": "text/plain"
+                  },
+                  "key": "author_id",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "66ac8955-0c34-48b5-b732-c0f109aa87cf",
+              "name": "List of books with author details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    "with-authors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter by author ID",
+                        "type": "text/plain"
+                      },
+                      "key": "author_id",
+                      "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"37c1d4a4-0c9e-58aa-4b33-bec6e1c658c1\",\n    \"title\": \"deserunt consectetur labore\",\n    \"author_id\": \"urn:uuid:4f8dd942-e9b7-1164-967d-0d78cf7eb616\",\n    \"created_at\": \"2013-06-14T05:36:50.747Z\",\n    \"updated_at\": \"2024-11-03T13:46:57.632Z\",\n    \"author\": {\n      \"id\": \"1f7b51bd-cfdc-b6da-85b7-8385a4a78a9c\",\n      \"name\": \"labore quis r\",\n      \"created_at\": \"1959-04-01T03:22:32.522Z\",\n      \"updated_at\": \"2024-12-05T06:56:53.492Z\",\n      \"bio\": \"laborum qui sunt nisi\"\n    },\n    \"description\": null,\n    \"isbn\": null,\n    \"published_date\": \"1956-07-05\"\n  },\n  {\n    \"id\": \"urn:uuid:6376982e-04bd-3caa-491e-306aeb74df94\",\n    \"title\": \"Ut Excepteur\",\n    \"author_id\": \"53c4a886-7d5d-4b54-acf2-2eb8fefcb1c2\",\n    \"created_at\": \"1983-12-30T17:28:12.235Z\",\n    \"updated_at\": \"1991-08-16T10:32:53.585Z\",\n    \"author\": {\n      \"id\": \"0b07c646-0b5b-8a83-af3d-72c53a9ec6a4\",\n      \"name\": \"ullamco qui non sed\",\n      \"created_at\": \"1965-05-23T08:25:45.582Z\",\n      \"updated_at\": \"2015-03-25T19:13:47.972Z\",\n      \"bio\": null\n    },\n    \"description\": null,\n    \"isbn\": \"proident minim incididunt cupidatat sit\",\n    \"published_date\": null\n  }\n]",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "2db0d640-bd11-4552-933e-df7c54fa2840",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/books/with-authors - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/books/with-authors - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/books/with-authors - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"description\":\"Book with author information included (for joined queries)\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\",\"author\"],\"properties\":{\"author\":{\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}},\"description\":\"Author information\"},\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/books/with-authors - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f570ba85-6018-4361-8b33-e50844837a39",
+          "name": "Get a single book by ID",
+          "request": {
+            "name": "Get a single book by ID",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to include",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "voluptate mollit"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Book ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "2817ffbd-0356-494a-93f8-ceb99051d202",
+              "name": "Book found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"1c3af8df-fe3a-cb74-95a5-c2924644ae80\",\n  \"title\": \"nulla officia aliqua\",\n  \"author_id\": \"88c13f18-e66f-cbba-b3c4-c0cc4fc28875\",\n  \"created_at\": \"1948-04-28T22:11:02.718Z\",\n  \"updated_at\": \"2020-01-02T11:58:32.632Z\",\n  \"description\": \"magna dolor do\",\n  \"isbn\": \"eu cillum Lorem Duis\",\n  \"published_date\": null\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "b01d8099-2b9e-4e6c-833c-a8fada576705",
+              "name": "Book not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to include",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "voluptate mollit"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d442e34f-f12e-4784-88a5-346c260f822a",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/books/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/books/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/books/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\"],\"properties\":{\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID (foreign key reference)\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/books/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce0d3777-eb16-4faa-b31d-bb5fd84eff54",
+          "name": "Update a book",
+          "request": {
+            "name": "Update a book",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Book ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"Updated description\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\",\n  \"title\": \"Harry Potter and the Philosopher's Stone\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "ca56a61f-b988-4cfb-8071-051494f127fc",
+              "name": "Book updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"Updated description\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\",\n  \"title\": \"Harry Potter and the Philosopher's Stone\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"1c3af8df-fe3a-cb74-95a5-c2924644ae80\",\n  \"title\": \"nulla officia aliqua\",\n  \"author_id\": \"88c13f18-e66f-cbba-b3c4-c0cc4fc28875\",\n  \"created_at\": \"1948-04-28T22:11:02.718Z\",\n  \"updated_at\": \"2020-01-02T11:58:32.632Z\",\n  \"description\": \"magna dolor do\",\n  \"isbn\": \"eu cillum Lorem Duis\",\n  \"published_date\": null\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "72bfec5e-e694-45c4-8acf-d65bd7153208",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"Updated description\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\",\n  \"title\": \"Harry Potter and the Philosopher's Stone\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "6d13c612-e6a4-4a84-b1bb-515232fdec3d",
+              "name": "Book or author not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"author_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"description\": \"Updated description\",\n  \"isbn\": \"978-0747532699\",\n  \"published_date\": \"1997-06-26\",\n  \"title\": \"Harry Potter and the Philosopher's Stone\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "da3e9041-411a-413d-94db-25da30fde30e",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[PUT]::/api/books/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[PUT]::/api/books/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[PUT]::/api/books/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\"],\"properties\":{\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID (foreign key reference)\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[PUT]::/api/books/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57d7c23e-377a-4c32-a09c-33819292de26",
+          "name": "Delete a book",
+          "request": {
+            "name": "Delete a book",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Book ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "8d00bbe7-4d63-4564-8599-17c92b329d61",
+              "name": "Book deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "bd7269ee-b5fe-408c-a0c3-57a0d08279d5",
+              "name": "Book not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "165ac9c1-4d88-406f-90e9-03e55585e478",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/api/books/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response has empty Body \npm.test(\"[DELETE]::/api/books/:id - Response has empty Body\", function () {\n    pm.response.to.not.be.withBody;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed003ebb-47d7-4672-a041-1ae234004701",
+          "name": "Get a single book WITH author information",
+          "request": {
+            "name": "Get a single book WITH author information",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "books",
+                ":id",
+                "with-author"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Book ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "5f57b7ac-eaaf-469c-9cd6-2b38803bb67c",
+              "name": "Book with author details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id",
+                    "with-author"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:46ed8925-4494-aae0-543a-fccabfeb9979\",\n  \"title\": \"anim aliqua occaecat\",\n  \"author_id\": \"urn:uuid:484948b5-e5ef-def8-16fb-c391f5981b53\",\n  \"created_at\": \"2004-04-17T06:18:12.933Z\",\n  \"updated_at\": \"1966-06-14T21:14:03.165Z\",\n  \"author\": {\n    \"id\": \"urn:uuid:c92e4c90-bf60-2b65-311e-c1c4851c2d73\",\n    \"name\": \"sunt in amet fugiat\",\n    \"created_at\": \"1977-08-27T20:00:19.645Z\",\n    \"updated_at\": \"1982-04-21T05:01:24.775Z\",\n    \"bio\": null\n  },\n  \"description\": null,\n  \"isbn\": null,\n  \"published_date\": null\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "6f38e385-300f-4603-950a-82dec73b7d12",
+              "name": "Book not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "books",
+                    ":id",
+                    "with-author"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1d8c167e-5aca-463a-ba44-d6364dfe2dd5",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/books/:id/with-author - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/books/:id/with-author - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/books/:id/with-author - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"description\":\"Book with author information included (for joined queries)\",\"required\":[\"id\",\"title\",\"author_id\",\"created_at\",\"updated_at\",\"author\"],\"properties\":{\"author\":{\"type\":\"object\",\"required\":[\"id\",\"name\",\"created_at\",\"updated_at\"],\"properties\":{\"bio\":{\"type\":[\"string\",\"null\"],\"description\":\"Author biography\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Author's name\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}},\"description\":\"Author information\"},\"author_id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Author ID\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Book description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"isbn\":{\"type\":[\"string\",\"null\"],\"description\":\"ISBN number\"},\"published_date\":{\"type\":[\"string\",\"null\"],\"format\":\"date\",\"description\":\"Publication date\"},\"title\":{\"type\":\"string\",\"description\":\"Book title\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/books/:id/with-author - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "69ec7f13-c5a4-4f4b-90f7-7ae49cdf7721",
+      "name": "todos",
+      "description": {
+        "content": "Todo management endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "692ea1b8-8e29-49ff-8125-05c746e92c14",
+          "name": "List all todos\nSupports field selection via query parameter: ?fields=id,name,completed",
+          "request": {
+            "name": "List all todos\nSupports field selection via query parameter: ?fields=id,name,completed",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier\n- `name` - Todo name\n- `description` - Optional description\n- `completed` - Completion status\n- `created_at` - Creation timestamp\n- `updated_at` - Last update timestamp\n\n**Examples:**\n- `?fields=id,name` - Only ID and name\n- `?fields=id,name,completed` - ID, name, and status\n- No parameter returns all fields",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "id,name,completed"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "cf859241-5366-4a8c-9ebc-1ab7eb68c868",
+              "name": "List of todos",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier\n- `name` - Todo name\n- `description` - Optional description\n- `completed` - Completion status\n- `created_at` - Creation timestamp\n- `updated_at` - Last update timestamp\n\n**Examples:**\n- `?fields=id,name` - Only ID and name\n- `?fields=id,name,completed` - ID, name, and status\n- No parameter returns all fields",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,name,completed"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"urn:uuid:a9d28ea6-df17-0dad-b05a-8b94ec32cfcc\",\n    \"name\": \"labore\",\n    \"completed\": true,\n    \"created_at\": \"1965-09-12T05:29:08.696Z\",\n    \"updated_at\": \"2008-09-05T14:28:57.837Z\",\n    \"description\": null\n  },\n  {\n    \"id\": \"64b29b9e-2040-e5b0-ce08-591a51932733\",\n    \"name\": \"consectetur non quis\",\n    \"completed\": true,\n    \"created_at\": \"1965-11-11T21:09:07.452Z\",\n    \"updated_at\": \"2008-02-24T19:54:14.424Z\",\n    \"description\": \"dolo\"\n  }\n]",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "8b36f0e9-a42c-47ac-8a49-4caedfeef674",
+              "name": "Invalid field names requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier\n- `name` - Todo name\n- `description` - Optional description\n- `completed` - Completion status\n- `created_at` - Creation timestamp\n- `updated_at` - Last update timestamp\n\n**Examples:**\n- `?fields=id,name` - Only ID and name\n- `?fields=id,name,completed` - ID, name, and status\n- No parameter returns all fields",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,name,completed"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "31ef3d28-7d62-4312-83d3-10f710a0afff",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/todos - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/todos - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/todos - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"required\":[\"id\",\"name\",\"completed\",\"created_at\",\"updated_at\"],\"properties\":{\"completed\":{\"type\":\"boolean\",\"description\":\"Whether the todo is completed\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Optional description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Name of the todo item\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/todos - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "024190ac-80af-4545-9f0b-090c4f97cb63",
+          "name": "Create a new todo",
+          "request": {
+            "name": "Create a new todo",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buy groceries\",\n  \"completed\": false,\n  \"description\": \"Milk, eggs, bread\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "ae3c5ec5-7487-44a9-b1da-4a3575b92fa2",
+              "name": "Todo created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Buy groceries\",\n  \"completed\": false,\n  \"description\": \"Milk, eggs, bread\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"b640bcf3-3efc-5e4a-1543-d08226cf4b6b\",\n  \"name\": \"cupidata\",\n  \"completed\": false,\n  \"created_at\": \"1952-01-26T11:46:14.957Z\",\n  \"updated_at\": \"1989-04-09T15:36:58.391Z\",\n  \"description\": \"laborum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "f146a551-f8e2-4106-a7b3-4ba014d9d3ef",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Buy groceries\",\n  \"completed\": false,\n  \"description\": \"Milk, eggs, bread\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a01bd868-ceba-422e-bf72-5a4bf882543b",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/api/todos - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[POST]::/api/todos - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[POST]::/api/todos - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"completed\",\"created_at\",\"updated_at\"],\"properties\":{\"completed\":{\"type\":\"boolean\",\"description\":\"Whether the todo is completed\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Optional description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Name of the todo item\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[POST]::/api/todos - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3652f332-3694-4942-a9f0-6a96d5513889",
+          "name": "Get available fields for todos resource",
+          "request": {
+            "name": "Get available fields for todos resource",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos",
+                "fields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "ffcc70ea-649b-4fc7-8ecd-4b7a90f2ea8a",
+              "name": "Available fields for todos",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    "fields"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"resource\": \"adipisicing laboris aliquip\",\n  \"fields\": [\n    {\n      \"name\": \"incididunt enim elit est do\",\n      \"required_role\": \"consequat\",\n      \"is_restricted\": false\n    },\n    {\n      \"name\": \"aliquip magna\",\n      \"required_role\": \"anim ex\",\n      \"is_restricted\": true\n    }\n  ],\n  \"accessible_fields\": [\n    \"sed et\",\n    \"non dolor consectetur qui eu\"\n  ]\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fed8e7be-c2d7-43ba-8392-c8bdd2570a34",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/todos/fields - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/todos/fields - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/todos/fields - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"description\":\"Available fields response for a resource\",\"required\":[\"resource\",\"fields\",\"accessible_fields\"],\"properties\":{\"accessible_fields\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"Fields accessible to the current user\"},\"fields\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"description\":\"Field information for API documentation\",\"required\":[\"name\",\"required_role\",\"is_restricted\"],\"properties\":{\"is_restricted\":{\"type\":\"boolean\",\"description\":\"Whether this field is restricted (never accessible)\"},\"name\":{\"type\":\"string\",\"description\":\"Field name\"},\"required_role\":{\"type\":\"string\",\"description\":\"Minimum role required to access this field\"}}},\"description\":\"List of available fields with access requirements\"},\"resource\":{\"type\":\"string\",\"description\":\"Resource name (e.g., \\\"todos\\\", \\\"users\\\")\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/todos/fields - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e554f54d-5ef1-4696-a891-1d076ec0c59f",
+          "name": "Get a todo by ID\nSupports field selection via query parameter: ?fields=id,name,completed",
+          "request": {
+            "name": "Get a todo by ID\nSupports field selection via query parameter: ?fields=id,name,completed",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `name`, `description`, `completed`, `created_at`, `updated_at`",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "id,name,completed"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Todo ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "42e6e3f6-0142-4041-befa-3aff985d53d8",
+              "name": "Todo found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `name`, `description`, `completed`, `created_at`, `updated_at`",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,name,completed"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"b640bcf3-3efc-5e4a-1543-d08226cf4b6b\",\n  \"name\": \"cupidata\",\n  \"completed\": false,\n  \"created_at\": \"1952-01-26T11:46:14.957Z\",\n  \"updated_at\": \"1989-04-09T15:36:58.391Z\",\n  \"description\": \"laborum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "574fdda4-df67-4068-b999-64bc455f06ff",
+              "name": "Invalid field names requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `name`, `description`, `completed`, `created_at`, `updated_at`",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,name,completed"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "73dab355-d95f-4e71-bcf0-2b92b9ecee18",
+              "name": "Todo not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `name`, `description`, `completed`, `created_at`, `updated_at`",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,name,completed"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "935d6d3e-1fb4-4206-a8ec-f6edb2cf3d80",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/todos/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/todos/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/todos/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"completed\",\"created_at\",\"updated_at\"],\"properties\":{\"completed\":{\"type\":\"boolean\",\"description\":\"Whether the todo is completed\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Optional description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Name of the todo item\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/todos/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d152926a-2175-473e-8b06-ef6d5142fd9a",
+          "name": "Update a todo",
+          "request": {
+            "name": "Update a todo",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Todo ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed\": true,\n  \"description\": \"Milk, eggs, bread\",\n  \"name\": \"Buy groceries\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d97899a6-7449-4270-a914-762d75178a83",
+              "name": "Todo updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"completed\": true,\n  \"description\": \"Milk, eggs, bread\",\n  \"name\": \"Buy groceries\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"b640bcf3-3efc-5e4a-1543-d08226cf4b6b\",\n  \"name\": \"cupidata\",\n  \"completed\": false,\n  \"created_at\": \"1952-01-26T11:46:14.957Z\",\n  \"updated_at\": \"1989-04-09T15:36:58.391Z\",\n  \"description\": \"laborum\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "371e1b36-4b67-4648-a2e8-eb48916c3949",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"completed\": true,\n  \"description\": \"Milk, eggs, bread\",\n  \"name\": \"Buy groceries\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "69274490-0e43-46a0-8504-b7864a70c3d5",
+              "name": "Todo not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"completed\": true,\n  \"description\": \"Milk, eggs, bread\",\n  \"name\": \"Buy groceries\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "fc8044d9-2d45-4ef3-9b13-ae6124fefdeb",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[PUT]::/api/todos/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[PUT]::/api/todos/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[PUT]::/api/todos/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"name\",\"completed\",\"created_at\",\"updated_at\"],\"properties\":{\"completed\":{\"type\":\"boolean\",\"description\":\"Whether the todo is completed\"},\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"description\":{\"type\":[\"string\",\"null\"],\"description\":\"Optional description\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"name\":{\"type\":\"string\",\"description\":\"Name of the todo item\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[PUT]::/api/todos/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0467e148-e4b8-40cb-afb6-bc9deee8cd78",
+          "name": "Delete a todo",
+          "request": {
+            "name": "Delete a todo",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "todos",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) Todo ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "154a9638-bab1-4f8b-8e0e-1b9bd718010d",
+              "name": "Todo deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "05736530-020e-4ca6-b22d-e896fd66ea5b",
+              "name": "Todo not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "todos",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "686e0168-2a72-454e-b3a6-724a1b4d3fb6",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/api/todos/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response has empty Body \npm.test(\"[DELETE]::/api/todos/:id - Response has empty Body\", function () {\n    pm.response.to.not.be.withBody;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e70b7722-0514-4156-9336-6aa6b0dd58eb",
+      "name": "users",
+      "description": {
+        "content": "User management endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "26e28296-f78a-4228-aee7-e667fe08b081",
+          "name": "List all users\nSupports field selection via query parameter: ?fields=id,username,email",
+          "request": {
+            "name": "List all users\nSupports field selection via query parameter: ?fields=id,username,email",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier (public)\n- `username` - Username (public)\n- `email` - Email address (public)\n- `created_at` - Creation timestamp (public)\n- `updated_at` - Last update timestamp (public)\n\n**Examples:**\n- `?fields=id,username` - Only ID and username\n- `?fields=id,username,email` - Include email\n- No parameter returns all accessible fields",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "id,username,email"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d8f6e00f-2a50-4044-b900-7f0e0b785efd",
+              "name": "List of users",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier (public)\n- `username` - Username (public)\n- `email` - Email address (public)\n- `created_at` - Creation timestamp (public)\n- `updated_at` - Last update timestamp (public)\n\n**Examples:**\n- `?fields=id,username` - Only ID and username\n- `?fields=id,username,email` - Include email\n- No parameter returns all accessible fields",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,username,email"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"urn:uuid:d700d4ce-8979-8718-5f3c-b33ec4ac8bb6\",\n    \"username\": \"anim cillum\",\n    \"email\": \"deserunt ut\",\n    \"created_at\": \"1969-10-11T02:26:17.571Z\",\n    \"updated_at\": \"1966-12-29T18:55:40.431Z\"\n  },\n  {\n    \"id\": \"urn:uuid:83b722a7-23fb-5eaa-dc49-0d6257734f05\",\n    \"username\": \"ut aliquip ullamco\",\n    \"email\": \"et aute fugiat\",\n    \"created_at\": \"1965-03-13T03:22:59.041Z\",\n    \"updated_at\": \"1954-07-09T07:30:59.815Z\"\n  }\n]",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "304b89f9-f355-4547-8e5f-342e4c4ed72f",
+              "name": "Invalid field names requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:**\n- `id` - Unique identifier (public)\n- `username` - Username (public)\n- `email` - Email address (public)\n- `created_at` - Creation timestamp (public)\n- `updated_at` - Last update timestamp (public)\n\n**Examples:**\n- `?fields=id,username` - Only ID and username\n- `?fields=id,username,email` - Include email\n- No parameter returns all accessible fields",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,username,email"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "780a0e90-7f75-4162-ba22-ce90c1d3b835",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/users - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/users - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/users - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"array\",\"items\":{\"type\":\"object\",\"required\":[\"id\",\"username\",\"email\",\"created_at\",\"updated_at\"],\"properties\":{\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"email\":{\"type\":\"string\",\"description\":\"Email address\\nTo require authentication for email, add: #[field(role = \\\"user\\\")]\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"},\"username\":{\"type\":\"string\",\"description\":\"Username\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/users - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "171d2251-a752-4545-bc2f-11f7ec7a94a7",
+          "name": "Create a new user",
+          "request": {
+            "name": "Create a new user",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"portman_test_user\",\n    \"email\": \"portman@example.com\",\n    \"password\": \"securepassword123\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "7cafa864-5738-4d71-abae-2fa40e6db1bf",
+              "name": "User created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"securepassword123\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:97aa9789-dece-5483-9521-0b0f4474289f\",\n  \"username\": \"commodo occaecat ea aute\",\n  \"email\": \"sit cupidatat qui\",\n  \"created_at\": \"1996-01-05T13:35:17.774Z\",\n  \"updated_at\": \"1960-08-09T05:49:29.046Z\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "c29ee604-d229-49cb-991e-d65b054a1937",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"securepassword123\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a8dd6638-a231-407a-b691-84f271df0b82",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[POST]::/api/users - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[POST]::/api/users - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[POST]::/api/users - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"username\",\"email\",\"created_at\",\"updated_at\"],\"properties\":{\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"email\":{\"type\":\"string\",\"description\":\"Email address\\nTo require authentication for email, add: #[field(role = \\\"user\\\")]\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"},\"username\":{\"type\":\"string\",\"description\":\"Username\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[POST]::/api/users - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n",
+                  "// Set response object as internal variable\nlet jsonData = {};\ntry {jsonData = pm.response.json();}catch(e){}\n",
+                  "// Set property value as variable\nconst _resId = jsonData?.id;\n",
+                  "// pm.collectionVariables - Set userId as variable for jsonData.id\nif (_resId !== undefined) {\n   pm.collectionVariables.set(\"userId\", jsonData.id);\n   console.log(\"- use {{userId}} as collection variable for value\",jsonData.id);\n} else {\n   console.log('INFO - Unable to assign variable {{userId}}, as jsonData.id is undefined.');\n};\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b7cc1c0-34e9-4493-bc4d-8c11ec8301f7",
+          "name": "Get available fields for users resource",
+          "request": {
+            "name": "Get available fields for users resource",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users",
+                "fields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "d8798734-8bd4-45df-872d-662b3c6b18c5",
+              "name": "Available fields for users",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    "fields"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"resource\": \"adipisicing laboris aliquip\",\n  \"fields\": [\n    {\n      \"name\": \"incididunt enim elit est do\",\n      \"required_role\": \"consequat\",\n      \"is_restricted\": false\n    },\n    {\n      \"name\": \"aliquip magna\",\n      \"required_role\": \"anim ex\",\n      \"is_restricted\": true\n    }\n  ],\n  \"accessible_fields\": [\n    \"sed et\",\n    \"non dolor consectetur qui eu\"\n  ]\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b19ab47d-a37f-4bcc-bb0b-a25a2ba2381c",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/users/fields - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/users/fields - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/users/fields - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"description\":\"Available fields response for a resource\",\"required\":[\"resource\",\"fields\",\"accessible_fields\"],\"properties\":{\"accessible_fields\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"Fields accessible to the current user\"},\"fields\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"description\":\"Field information for API documentation\",\"required\":[\"name\",\"required_role\",\"is_restricted\"],\"properties\":{\"is_restricted\":{\"type\":\"boolean\",\"description\":\"Whether this field is restricted (never accessible)\"},\"name\":{\"type\":\"string\",\"description\":\"Field name\"},\"required_role\":{\"type\":\"string\",\"description\":\"Minimum role required to access this field\"}}},\"description\":\"List of available fields with access requirements\"},\"resource\":{\"type\":\"string\",\"description\":\"Resource name (e.g., \\\"todos\\\", \\\"users\\\")\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/users/fields - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82000fa8-c126-4811-8ad5-bf978215dced",
+          "name": "Get a user by ID\nSupports field selection via query parameter: ?fields=id,username,email",
+          "request": {
+            "name": "Get a user by ID\nSupports field selection via query parameter: ?fields=id,username,email",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `username`, `email`, `created_at`, `updated_at`\n\n**Note:** All fields are currently public. Use headers `x-user-role: user` for authenticated access.",
+                    "type": "text/plain"
+                  },
+                  "key": "fields",
+                  "value": "id,username,email"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) User ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "39596f21-22d8-451a-a5a4-e5c7d4998988",
+              "name": "User found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `username`, `email`, `created_at`, `updated_at`\n\n**Note:** All fields are currently public. Use headers `x-user-role: user` for authenticated access.",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,username,email"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:97aa9789-dece-5483-9521-0b0f4474289f\",\n  \"username\": \"commodo occaecat ea aute\",\n  \"email\": \"sit cupidatat qui\",\n  \"created_at\": \"1996-01-05T13:35:17.774Z\",\n  \"updated_at\": \"1960-08-09T05:49:29.046Z\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "df77b250-5254-4b97-b5dd-70c9e26bd6f0",
+              "name": "Invalid field names requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `username`, `email`, `created_at`, `updated_at`\n\n**Note:** All fields are currently public. Use headers `x-user-role: user` for authenticated access.",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,username,email"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "a1372a57-f169-4818-a036-43b06876b3a5",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Comma-separated list of fields to return.\n\n**Available fields:** `id`, `username`, `email`, `created_at`, `updated_at`\n\n**Note:** All fields are currently public. Use headers `x-user-role: user` for authenticated access.",
+                        "type": "text/plain"
+                      },
+                      "key": "fields",
+                      "value": "id,username,email"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "822836da-da61-4eee-8bae-fd9d585e3f0c",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/users/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/users/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/users/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"username\",\"email\",\"created_at\",\"updated_at\"],\"properties\":{\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"email\":{\"type\":\"string\",\"description\":\"Email address\\nTo require authentication for email, add: #[field(role = \\\"user\\\")]\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"},\"username\":{\"type\":\"string\",\"description\":\"Username\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/users/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db6593a4-9253-47cf-a5af-bddf268c8e7f",
+          "name": "Update a user",
+          "request": {
+            "name": "Update a user",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) User ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"portman_updated@example.com\",\n    \"password\": \"newsecurepassword123\",\n    \"username\": \"portman_updated_user\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "afeea935-2f18-42e7-8b47-d8480da60850",
+              "name": "User updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"newsecurepassword123\",\n  \"username\": \"johndoe\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"urn:uuid:97aa9789-dece-5483-9521-0b0f4474289f\",\n  \"username\": \"commodo occaecat ea aute\",\n  \"email\": \"sit cupidatat qui\",\n  \"created_at\": \"1996-01-05T13:35:17.774Z\",\n  \"updated_at\": \"1960-08-09T05:49:29.046Z\"\n}",
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "1b0ba30d-0df9-4634-bc23-cb2b9c8f1a7c",
+              "name": "Invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"newsecurepassword123\",\n  \"username\": \"johndoe\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "39b85557-d46b-44a8-9efa-4c0e5d4b53d0",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"newsecurepassword123\",\n  \"username\": \"johndoe\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "48950ab4-e049-4749-afbe-e857e78b814e",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[PUT]::/api/users/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[PUT]::/api/users/:id - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[PUT]::/api/users/:id - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"required\":[\"id\",\"username\",\"email\",\"created_at\",\"updated_at\"],\"properties\":{\"created_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Creation timestamp\"},\"email\":{\"type\":\"string\",\"description\":\"Email address\\nTo require authentication for email, add: #[field(role = \\\"user\\\")]\"},\"id\":{\"type\":\"string\",\"format\":\"uuid\",\"description\":\"Unique identifier\"},\"updated_at\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"Last update timestamp\"},\"username\":{\"type\":\"string\",\"description\":\"Username\"}}}\n\n// Validate if response matches JSON schema \npm.test(\"[PUT]::/api/users/:id - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "090d2aac-4499-47ca-813c-05e88f6a8752",
+          "name": "Delete a user",
+          "request": {
+            "name": "Delete a user",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "(Required) User ID",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "d3f24563-3ff8-c8d2-8549-02fb249b6e91",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "700e2177-9a7d-4f14-8644-263b1d1e9816",
+              "name": "User deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": []
+            },
+            {
+              "_": {
+                "postman_previewlanguage": "text"
+              },
+              "id": "783732cb-4504-4646-8466-b21cdc2148cd",
+              "name": "User not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [],
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4985bdf7-b8f5-4afc-a0ad-65ed70b7d8f3",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[DELETE]::/api/users/:id - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response has empty Body \npm.test(\"[DELETE]::/api/users/:id - Response has empty Body\", function () {\n    pm.response.to.not.be.withBody;\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "45329119-d7ba-4daf-b565-6ff77bb97144",
+      "name": "meta",
+      "description": {
+        "content": "API metadata and introspection endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc058023-4db1-43d8-ae6f-184c859598cb",
+          "name": "Get available fields for all resources\nThis endpoint shows which fields can be selected for each resource\nand indicates the role requirements for field access",
+          "request": {
+            "name": "Get available fields for all resources\nThis endpoint shows which fields can be selected for each resource\nand indicates the role requirements for field access",
+            "description": {
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "fields"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "_": {
+                "postman_previewlanguage": "json"
+              },
+              "id": "3dcbddb7-8819-497c-a699-80693c22bd70",
+              "name": "Available fields for all resources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "fields"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"resources\": {\n    \"est5a8\": {\n      \"resource\": \"occaecat qui proident sed est\",\n      \"fields\": [\n        {\n          \"name\": \"laboris Excepteur commodo fugiat Ut\",\n          \"required_role\": \"sint adipisicing\",\n          \"is_restricted\": true\n        },\n        {\n          \"name\": \"cillum\",\n          \"required_role\": \"Ut eiusmod\",\n          \"is_restricted\": false\n        }\n      ],\n      \"accessible_fields\": [\n        \"aute\",\n        \"reprehenderit occaecat\"\n      ]\n    }\n  }\n}",
+              "cookie": []
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "d2b54c67-a518-4f75-8317-eaa6a25a4081",
+                "type": "text/javascript",
+                "exec": [
+                  "// Validate status 2xx \npm.test(\"[GET]::/api/fields - Status code is 2xx\", function () {\n   pm.response.to.be.success;\n});\n",
+                  "// Validate if response header has matching content-type\npm.test(\"[GET]::/api/fields - Content-Type is application/json\", function () {\n   pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n",
+                  "// Validate if response has JSON Body \npm.test(\"[GET]::/api/fields - Response has JSON Body\", function () {\n    pm.response.to.have.jsonBody();\n});\n",
+                  "// Response Validation\nconst schema = {\"type\":\"object\",\"description\":\"Response containing all resources and their fields\",\"required\":[\"resources\"],\"properties\":{\"resources\":{\"type\":\"object\",\"description\":\"Map of resource name to field information\",\"additionalProperties\":{\"type\":\"object\",\"description\":\"Available fields response for a resource\",\"required\":[\"resource\",\"fields\",\"accessible_fields\"],\"properties\":{\"accessible_fields\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"Fields accessible to the current user\"},\"fields\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"description\":\"Field information for API documentation\",\"required\":[\"name\",\"required_role\",\"is_restricted\"],\"properties\":{\"is_restricted\":{\"type\":\"boolean\",\"description\":\"Whether this field is restricted (never accessible)\"},\"name\":{\"type\":\"string\",\"description\":\"Field name\"},\"required_role\":{\"type\":\"string\",\"description\":\"Minimum role required to access this field\"}}},\"description\":\"List of available fields with access requirements\"},\"resource\":{\"type\":\"string\",\"description\":\"Resource name (e.g., \\\"todos\\\", \\\"users\\\")\"}}},\"propertyNames\":{\"type\":\"string\"}}}}\n\n// Validate if response matches JSON schema \npm.test(\"[GET]::/api/fields - Schema is valid\", function() {\n    pm.response.to.have.jsonSchema(schema,{unknownFormats: [\"int32\", \"int64\", \"float\", \"double\"]});\n});\n"
+                ]
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:8080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ea26924c-b9d7-49c9-8e8e-72c494cdcf21",
+    "name": "Zerg API",
+    "version": {
+      "raw": "1.0.0",
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "prerelease": [],
+      "build": [],
+      "string": "1.0.0"
+    },
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "A modern REST API built with Axum and SeaORM\n\nContact Support:\n Name: API Support\n Email: support@example.com",
+      "type": "text/plain"
+    }
+  }
+}

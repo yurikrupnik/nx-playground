@@ -1,0 +1,7 @@
+error: proc-macro derive panicked
+ --> tests/ui/enum_not_supported.rs:3:10
+  |
+3 | #[derive(SelectableFields)]
+  |          ^^^^^^^^^^^^^^^^
+  |
+  = help: message: SelectableFields can only be derived for structs

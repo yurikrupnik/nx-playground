@@ -1,0 +1,11 @@
+{
+  "version": 1.0,
+  "operationTests": [
+    {
+      "openApiOperation": "*::*",
+      "statusSuccess": {
+        "enabled": true
+      }
+    }
+  ]
+}

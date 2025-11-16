@@ -1,0 +1,266 @@
+{
+  "version": 1.0,
+  "tests": {
+    "contractTests": [
+      {
+        "openApiOperation": "*::*",
+        "statusSuccess": {
+          "enabled": true
+        }
+      },
+      {
+        "openApiOperation": "*::*",
+        "contentType": {
+          "enabled": true
+        }
+      },
+      {
+        "openApiOperation": "*::*",
+        "jsonBody": {
+          "enabled": true
+        }
+      },
+      {
+        "openApiOperation": "*::*",
+        "schemaValidation": {
+          "enabled": true
+        }
+      },
+      {
+        "openApiOperation": "*::*",
+        "headersPresent": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  "assignVariables": [
+    {
+      "openApiOperation": "POST::/api/users",
+      "collectionVariables": [
+        {
+          "responseBodyProp": "id",
+          "name": "userId"
+        }
+      ]
+    },
+    {
+      "openApiOperation": "POST::/api/authors",
+      "collectionVariables": [
+        {
+          "responseBodyProp": "id",
+          "name": "authorId"
+        }
+      ]
+    },
+    {
+      "openApiOperation": "POST::/api/todos",
+      "collectionVariables": [
+        {
+          "responseBodyProp": "id",
+          "name": "todoId"
+        }
+      ]
+    },
+    {
+      "openApiOperation": "POST::/api/books",
+      "collectionVariables": [
+        {
+          "responseBodyProp": "id",
+          "name": "bookId"
+        }
+      ]
+    }
+  ],
+  "globals": {
+    "stripResponseExamples": false
+  },
+  "operationPreRequestScripts": [
+    {
+      "openApiOperation": "POST::/api/users",
+      "scripts": [
+        "pm.variables.set('uniqueEmail', `portman_${Date.now()}@example.com`);"
+      ]
+    },
+    {
+      "openApiOperation": "POST::/api/books",
+      "scripts": [
+        "console.log('Creating book with authorId:', pm.collectionVariables.get('authorId'));"
+      ]
+    }
+  ],
+  "overwrites": [
+    {
+      "openApiOperation": "POST::/api/users",
+      "overwriteRequestBody": [
+        {
+          "key": "username",
+          "value": "portman_test_user",
+          "overwrite": true
+        },
+        {
+          "key": "email",
+          "value": "{{uniqueEmail}}",
+          "overwrite": true
+        },
+        {
+          "key": "password",
+          "value": "securepassword123",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "GET::/api/users/{id}",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{userId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/api/users/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{userId}}",
+          "overwrite": true
+        }
+      ],
+      "overwriteRequestBody": [
+        {
+          "key": "username",
+          "value": "portman_updated_user",
+          "overwrite": true
+        },
+        {
+          "key": "email",
+          "value": "portman_updated@example.com",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "DELETE::/api/users/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{userId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "GET::/api/authors/{id}",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{authorId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/api/authors/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{authorId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "DELETE::/api/authors/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{authorId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "GET::/api/todos/{id}",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{todoId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/api/todos/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{todoId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "DELETE::/api/todos/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{todoId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "GET::/api/books/{id}",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{bookId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "GET::/api/books/{id}/with-author",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{bookId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/api/books/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{bookId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "DELETE::/api/books/*",
+      "overwriteRequestPathVariables": [
+        {
+          "key": "id",
+          "value": "{{bookId}}",
+          "overwrite": true
+        }
+      ]
+    },
+    {
+      "openApiOperation": "POST::/api/books",
+      "overwriteRequestBody": [
+        {
+          "key": "author_id",
+          "value": "{{authorId}}",
+          "overwrite": true
+        }
+      ]
+    }
+  ]
+}
