@@ -8,8 +8,6 @@
     "build": {
       "executor": "@monodon/rust:build",
       "options": {
-        "outputPath": "dist/apps/utils/schema-gen",
-        "cargoTargetDirectory": "target"
       }
     },
     "run": {

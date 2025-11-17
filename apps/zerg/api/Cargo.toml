@@ -19,9 +19,9 @@ color-eyre = "0.6"
 config = { workspace = true }  # Shared config library
 eyre = { workspace = true }
 eyre-span = "0.1.0"
+proc_macros = { workspace = true, features = ["selectable_fields"] }
 sea-orm = { workspace = true }
 sea-orm-migration = { workspace = true }
-proc_macros = { workspace = true, features = ["selectable_fields"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
@@ -40,8 +40,8 @@ validator = { workspace = true }
 axum-test = "18.2"  # Helper for testing Axum applications
 pretty_assertions = "1.4"  # Better assertion output
 reqwest = { version = "0.12", features = ["json"] }  # HTTP client for e2e tests
-rstest = "0.23"  # Parameterized testing
-testcontainers = "0.22"  # Run containers for integration tests
-testcontainers-modules = { version = "0.10", features = ["postgres"] }  # Postgres test container
+rstest = "0.26"  # Parameterized testing
+testcontainers = "0.25"  # Run containers for integration tests
+testcontainers-modules = { version = "0.13", features = ["postgres"] }  # Postgres test container
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

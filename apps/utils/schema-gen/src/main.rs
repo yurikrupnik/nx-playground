@@ -73,7 +73,7 @@ fn main() -> Result<()> {
         }
     }
 
-    // Create output directory if it doesn't exist
+    // Create an output directory if it doesn't exist
     fs::create_dir_all(&args.output)?;
 
     // Generate diagrams based on format

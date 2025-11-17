@@ -286,7 +286,9 @@ mod tests {
 
         assert!(output_str.contains(r#"const COLLECTION : & 'static str = "product_items""#));
         assert!(output_str.contains(r#"const URL : & 'static str = "/api/v1/products""#));
-        assert!(output_str.contains(r#"const URL_WITH_ID : & 'static str = "/api/v1/products/{id}""#));
+        assert!(
+            output_str.contains(r#"const URL_WITH_ID : & 'static str = "/api/v1/products/{id}""#)
+        );
         assert!(output_str.contains(r#"const TAG : & 'static str = "Product Catalog""#));
     }
 

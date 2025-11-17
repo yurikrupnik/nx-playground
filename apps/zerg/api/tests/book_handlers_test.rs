@@ -321,7 +321,10 @@ async fn test_update_book() {
         .expect("update_book should succeed");
 
     assert_eq!(result.0.title, "Updated Title");
-    assert_eq!(result.0.description, Some("Updated description".to_string()));
+    assert_eq!(
+        result.0.description,
+        Some("Updated description".to_string())
+    );
     assert_eq!(
         result.0.published_date,
         Some(NaiveDate::from_ymd_opt(2023, 6, 15).unwrap())
