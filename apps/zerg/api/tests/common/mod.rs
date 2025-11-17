@@ -1,7 +1,10 @@
 use sea_orm::Database;
 use testcontainers::{runners::AsyncRunner, ContainerAsync};
 use testcontainers_modules::postgres::Postgres;
-use zerg_api::{db, state::AppState};
+use zerg_api::{
+    db,
+    state::{AppState, AppStateBuilder},
+};
 
 /// Test container for a PostgreSQL database
 #[allow(dead_code)]
@@ -13,6 +16,9 @@ pub struct TestDb {
 
 impl TestDb {
     /// Creates a new test database with migrations applied
+    ///
+    /// Redis is mocked - tests that don't use Redis will work fine.
+    /// When you add Redis business logic, you can add a real Redis testcontainer.
     pub async fn new() -> Self {
         // Start PostgreSQL container
         let postgres_image = Postgres::default();
@@ -41,7 +47,12 @@ impl TestDb {
             .await
             .expect("Failed to run migrations");
 
-        let app_state = AppState::new(connection);
+        // Build AppState with mock Redis (safe for tests that don't use Redis)
+        let app_state = AppStateBuilder::new()
+            .with_db(connection)
+            .with_redis_mock()
+            .await
+            .build();
 
         Self {
             container,

@@ -2,6 +2,7 @@ pub mod database;
 pub mod mongodb;
 pub mod redis;
 pub mod server;
+pub mod tracing;
 
 use std::env;
 

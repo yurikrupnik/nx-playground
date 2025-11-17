@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 dotenvy = "0.15"
 eyre = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
 
 [dev-dependencies]
 temp-env = "0.3"

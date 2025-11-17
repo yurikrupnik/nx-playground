@@ -20,10 +20,12 @@ config = { workspace = true }  # Shared config library
 eyre = { workspace = true }
 eyre-span = "0.1.0"
 proc_macros = { workspace = true, features = ["selectable_fields"] }
+redis = { workspace = true }
 sea-orm = { workspace = true }
 sea-orm-migration = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+services = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true }
 tower = { workspace = true }

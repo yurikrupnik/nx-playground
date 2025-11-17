@@ -16,13 +16,13 @@ pub enum UserRole {
 impl UserRole {
     /// Check if this role has at least the required role level
     pub fn has_permission(&self, required: &UserRole) -> bool {
-        match (self, required) {
-            (UserRole::Admin, _) => true,
-            (UserRole::User, UserRole::User) => true,
-            (UserRole::User, UserRole::Anonymous) => true,
-            (UserRole::Anonymous, UserRole::Anonymous) => true,
-            _ => false,
-        }
+        matches!(
+            (self, required),
+            (UserRole::Admin, _)
+                | (UserRole::User, UserRole::User)
+                | (UserRole::User, UserRole::Anonymous)
+                | (UserRole::Anonymous, UserRole::Anonymous)
+        )
     }
 }
 

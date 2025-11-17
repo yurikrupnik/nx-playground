@@ -1,8 +1,7 @@
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
 use sea_orm_migration::MigratorTrait;
 use std::time::Duration;
-use tracing::log;
-
+use tracing::{log::LevelFilter, info};
 use crate::migrator::Migrator;
 
 pub async fn connect(database_url: &str) -> Result<DatabaseConnection, DbErr> {
@@ -14,18 +13,18 @@ pub async fn connect(database_url: &str) -> Result<DatabaseConnection, DbErr> {
         .idle_timeout(Duration::from_secs(8))
         .max_lifetime(Duration::from_secs(8))
         .sqlx_logging(true)
-        .sqlx_logging_level(log::LevelFilter::Info);
+        .sqlx_logging_level(LevelFilter::Info); // SeaORM requires log::LevelFilter
 
     let db = Database::connect(opt).await?;
 
-    log::info!("Successfully connected to database");
+    info!("Successfully connected to database");
 
     Ok(db)
 }
 
 pub async fn run_migrations(db: &DatabaseConnection) -> Result<(), DbErr> {
-    log::info!("Running database migrations...");
+    info!("Running database migrations...");
     Migrator::up(db, None).await?;
-    log::info!("Migrations completed successfully");
+    info!("Migrations completed successfully");
     Ok(())
 }

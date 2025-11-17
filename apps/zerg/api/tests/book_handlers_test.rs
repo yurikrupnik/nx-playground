@@ -15,11 +15,11 @@ use zerg_api::{
         create_book, delete_book, get_book, get_book_with_author, list_books,
         list_books_with_authors, update_book, ListBooksParams,
     },
-    state::AppState,
+    state::{AppState, AppStateBuilder},
     utils::field_selector::FieldSelector,
 };
 
-fn setup_mock_state_for_create_book() -> (AppState, Uuid, Uuid) {
+async fn setup_mock_state_for_create_book() -> (AppState, Uuid, Uuid) {
     let author_id = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440001").unwrap();
     let book_id = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440010").unwrap();
 
@@ -51,10 +51,18 @@ fn setup_mock_state_for_create_book() -> (AppState, Uuid, Uuid) {
         .append_query_results([vec![book.clone()]]) // For returning the inserted book
         .into_connection();
 
-    (AppState::new(db), author_id, book_id)
+    (
+        AppStateBuilder::new()
+            .with_db(db)
+            .with_redis_mock()
+            .await
+            .build(),
+        author_id,
+        book_id,
+    )
 }
 
-fn setup_mock_state_with_books() -> (AppState, Uuid, Uuid) {
+async fn setup_mock_state_with_books() -> (AppState, Uuid, Uuid) {
     let author_id = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440001").unwrap();
     let book_id = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440010").unwrap();
 
@@ -73,12 +81,20 @@ fn setup_mock_state_with_books() -> (AppState, Uuid, Uuid) {
         .append_query_results([vec![book.clone()]]) // For list/get book queries
         .into_connection();
 
-    (AppState::new(db), author_id, book_id)
+    (
+        AppStateBuilder::new()
+            .with_db(db)
+            .with_redis_mock()
+            .await
+            .build(),
+        author_id,
+        book_id,
+    )
 }
 
 #[tokio::test]
 async fn test_create_book() {
-    let (state, author_id, _) = setup_mock_state_for_create_book();
+    let (state, author_id, _) = setup_mock_state_for_create_book().await;
 
     let payload = CreateBookDto {
         title: "New Book".to_string(),
@@ -97,7 +113,7 @@ async fn test_create_book() {
 
 #[tokio::test]
 async fn test_list_books() {
-    let (state, _, _) = setup_mock_state_with_books();
+    let (state, _, _) = setup_mock_state_with_books().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -120,7 +136,7 @@ async fn test_list_books() {
 
 #[tokio::test]
 async fn test_list_books_filtered_by_author() {
-    let (state, author_id, _) = setup_mock_state_with_books();
+    let (state, author_id, _) = setup_mock_state_with_books().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -143,7 +159,7 @@ async fn test_list_books_filtered_by_author() {
 
 #[tokio::test]
 async fn test_get_book_by_id() {
-    let (state, author_id, book_id) = setup_mock_state_with_books();
+    let (state, author_id, book_id) = setup_mock_state_with_books().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -191,7 +207,11 @@ async fn test_list_books_with_authors() {
         .append_query_results([vec![(book.clone(), Some(author.clone()))]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let params = AuthorFilterParams { author_id: None };
 
     let result = list_books_with_authors(State(state), Query(params))
@@ -233,7 +253,11 @@ async fn test_get_book_with_author() {
         .append_query_results([vec![(book.clone(), Some(author.clone()))]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
 
     let result = get_book_with_author(State(state), Path(book_id))
         .await
@@ -248,7 +272,7 @@ async fn test_get_book_with_author() {
 
 #[tokio::test]
 async fn test_book_with_field_selection() {
-    let (state, _, book_id) = setup_mock_state_with_books();
+    let (state, _, book_id) = setup_mock_state_with_books().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -307,7 +331,11 @@ async fn test_update_book() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let payload = UpdateBookDto {
         title: Some("Updated Title".to_string()),
         description: Some("Updated description".to_string()),
@@ -354,7 +382,11 @@ async fn test_delete_book() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
 
     let result = delete_book(State(state), Path(book_id))
         .await

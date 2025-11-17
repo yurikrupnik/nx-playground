@@ -12,12 +12,12 @@ use zerg_api::{
     dto::todo::{CreateTodoDto, TodoResponseDto, UpdateTodoDto},
     entities::todo,
     handlers::todos::{create_todo, delete_todo, get_todo, list_todos, update_todo},
-    state::AppState,
+    state::{AppState, AppStateBuilder},
     utils::field_selector::FieldSelector,
 };
 
 /// Helper to create a mock database with predefined todos
-fn setup_mock_state_with_todos() -> AppState {
+async fn setup_mock_state_with_todos() -> AppState {
     let todo1 = todo::Model {
         id: Uuid::parse_str("550e8400-e29b-41d4-a716-446655440001").unwrap(),
         name: "Buy groceries".to_string(),
@@ -53,12 +53,16 @@ fn setup_mock_state_with_todos() -> AppState {
         ])
         .into_connection();
 
-    AppState::new(db)
+    AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build()
 }
 
 #[tokio::test]
 async fn test_list_todos_returns_all_todos() {
-    let state = setup_mock_state_with_todos();
+    let state = setup_mock_state_with_todos().await;
 
     let auth = AuthContext {
         user_id: None,
@@ -81,7 +85,7 @@ async fn test_list_todos_returns_all_todos() {
 
 #[tokio::test]
 async fn test_list_todos_with_field_selection() {
-    let state = setup_mock_state_with_todos();
+    let state = setup_mock_state_with_todos().await;
 
     let auth = AuthContext {
         user_id: None,
@@ -124,7 +128,11 @@ async fn test_get_todo_by_id() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -148,7 +156,11 @@ async fn test_get_todo_not_found() {
         .append_query_results([Vec::<todo::Model>::new()]) // Empty result
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -179,7 +191,11 @@ async fn test_create_todo_validation() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let payload = CreateTodoDto {
         name: "New task".to_string(),
         description: None,
@@ -222,7 +238,11 @@ async fn test_update_todo() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
     let payload = UpdateTodoDto {
         name: Some("Updated name".to_string()),
         description: Some("New description".to_string()),
@@ -256,7 +276,11 @@ async fn test_delete_todo() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_redis_mock()
+        .await
+        .build();
 
     let result = delete_todo(State(state), Path(todo_id))
         .await

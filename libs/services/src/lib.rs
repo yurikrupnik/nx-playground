@@ -1,4 +1,5 @@
-mod postgres;
+pub mod postgres;
+pub mod redis;
 
 #[cfg(test)]
 mod tests {
