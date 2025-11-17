@@ -1,0 +1,5 @@
+error: Unknown field: `unknown_attr`. Available values: `collection`, `tag`, `url`
+ --> tests/ui/enum_not_supported.rs:4:16
+  |
+4 | #[api_resource(unknown_attr = "value")]  // Invalid attribute should fail
+  |                ^^^^^^^^^^^^

@@ -1,0 +1,47 @@
+# Bacon configuration for multiple apps
+default_job = "check"
+
+[jobs.lint]
+command = ["nx", "run-many", "-t", "lint", "--parallel=16"]
+need_stdout = true
+
+[jobs.check]
+command = ["cargo", "check", "--color", "always"]
+need_stdout = false
+
+[jobs.zerg-api]
+command = ["cargo", "run", "-p", "zerg_api", "--color", "always"]
+need_stdout = true
+watch = ["apps/zerg/api", "libs"]
+allow_warnings = true
+background = false
+on_change_strategy = "kill_then_restart"
+
+[jobs.terran-api]
+command = ["cargo", "run", "-p", "terran_api", "--color", "always"]
+need_stdout = true
+watch = ["apps/terran/api", "libs"]
+allow_warnings = true
+background = false
+on_change_strategy = "kill_then_restart"
+
+[jobs.zerg-cli]
+command = ["cargo", "run", "-p", "zerg_cli", "--color", "always"]
+need_stdout = true
+
+[jobs.zerg-operator]
+command = ["cargo", "run", "-p", "zerg_operator", "--color", "always"]
+need_stdout = true
+
+# Watch all workspace members
+[jobs.check-all]
+command = ["cargo", "check", "--workspace", "--color", "always"]
+need_stdout = false
+
+[jobs.test-all]
+command = ["cargo", "test", "--workspace", "--color", "always"]
+need_stdout = true
+
+[jobs.test-all-fast]
+command = ["cargo", "test", "--workspace", "--color", "always"]
+need_stdout = true

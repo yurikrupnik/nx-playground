@@ -1,0 +1,7 @@
+error: proc-macro derive panicked
+ --> tests/ui/invalid_role.rs:3:10
+  |
+3 | #[derive(SelectableFields)]
+  |          ^^^^^^^^^^^^^^^^
+  |
+  = help: message: Invalid role 'superuser'. Must be 'anonymous', 'user', or 'admin'

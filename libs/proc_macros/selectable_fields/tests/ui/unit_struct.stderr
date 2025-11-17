@@ -1,0 +1,7 @@
+error[E0433]: failed to resolve: could not find `utils` in the crate root
+ --> tests/ui/unit_struct.rs:3:10
+  |
+3 | #[derive(SelectableFields)]
+  |          ^^^^^^^^^^^^^^^^ could not find `utils` in the crate root
+  |
+  = note: this error originates in the derive macro `SelectableFields` (in Nightly builds, run with -Z macro-backtrace for more info)

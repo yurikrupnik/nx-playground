@@ -1,0 +1,20 @@
+{
+  "name": "schema-gen",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/utils/schema-gen/src",
+  "projectType": "application",
+  "tags": ["type:app", "lang:rust"],
+  "targets": {
+    "build": {
+      "executor": "@monodon/rust:build",
+      "options": {
+      }
+    },
+    "run": {
+      "executor": "@monodon/rust:run-script",
+      "options": {
+        "script": "run --bin schema-gen"
+      }
+    }
+  }
+}
