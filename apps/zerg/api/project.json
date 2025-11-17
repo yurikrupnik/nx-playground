@@ -34,57 +34,6 @@
         }
       }
     },
-    "test:unit": {
-      "cache": true,
-      "command": "cargo test --lib --target-dir dist/target/zerg_api -p zerg_api",
-      "outputs": [
-        "{workspaceRoot}/dist/target/zerg_api"
-      ]
-    },
-    "test:integration": {
-      "cache": true,
-      "command": "cargo test --test integration_tests --target-dir dist/target/zerg_api -p zerg_api",
-      "outputs": [
-        "{workspaceRoot}/dist/target/zerg_api"
-      ]
-    },
-    "test:e2e": {
-      "cache": true,
-      "command": "cargo test --test e2e_tests --target-dir dist/target/zerg_api -p zerg_api",
-      "outputs": [
-        "{workspaceRoot}/dist/target/zerg_api"
-      ]
-    },
-    "test:newman": {
-      "cache": false,
-      "command": "bash scripts/run-newman-tests.sh",
-      "options": {
-        "cwd": "apps/zerg/api"
-      },
-      "outputs": [
-        "{projectRoot}/postman/reports"
-      ]
-    },
-    "openapi:fetch": {
-      "cache": false,
-      "command": "bash scripts/fetch-openapi.sh",
-      "options": {
-        "cwd": "apps/zerg/api"
-      },
-      "outputs": [
-        "{projectRoot}/postman/openapi.json"
-      ]
-    },
-    "postman:generate": {
-      "cache": false,
-      "command": "bash scripts/generate-postman-tests.sh",
-      "options": {
-        "cwd": "apps/zerg/api"
-      },
-      "outputs": [
-        "{projectRoot}/postman/zerg-api-generated.postman_collection.json"
-      ]
-    },
     "lint": {
       "cache": true,
       "executor": "@monodon/rust:lint",
