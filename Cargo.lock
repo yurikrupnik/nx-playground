@@ -3563,6 +3563,8 @@ name = "services"
 version = "0.1.0"
 dependencies = [
  "redis",
+ "sea-orm",
+ "sea-orm-migration",
  "tracing",
 ]
 

@@ -1,1 +1,4 @@
-pub mod connector;
+
+mod connector;
+
+pub use connector::connect;

@@ -1,9 +1,9 @@
-use zerg_api::{config as app_config, db, routes, state};
+use zerg_api::{config as app_config, migrator::Migrator, routes, state};
 
 use app_config::Config;
 use config::tracing::init_tracing;
 use eyre::{Result, WrapErr};
-use services::redis::connector::connect;
+use services::{postgres, redis};
 use tower_http::{
     cors::CorsLayer,
     trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
@@ -19,21 +19,22 @@ async fn main() -> Result<()> {
     // Initialize tracing with environment-aware configuration
     init_tracing(&config.environment);
 
-    // Connect to database
+    // Connect to a database and Redis
     let (postgres_pool, redis_manager) = tokio::try_join!(
         async {
-            db::connect(&config.database.url)
+            postgres::connect(&config.database.url)
                 .await
                 .wrap_err("Failed to connect to Postgres")
         },
         async {
-            connect(&config.redis.host)
+            redis::connect(&config.redis.host)
                 .await
                 .wrap_err("Failed to connect to Redis")
         }
     )?;
+
     // Run migrations
-    db::run_migrations(&postgres_pool).await?;
+    postgres::run_migrations::<Migrator>(&postgres_pool, "zerg_api").await?;
 
     // Create an application state
     let app_state = state::AppState::new(postgres_pool, redis_manager);
