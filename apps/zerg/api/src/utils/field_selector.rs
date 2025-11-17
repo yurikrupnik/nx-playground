@@ -300,6 +300,12 @@ mod tests {
         email: String,
     }
 
+    impl SelectableFields for TestDto {
+        fn available_fields() -> Vec<&'static str> {
+            vec!["id", "name", "email"]
+        }
+    }
+
     #[test]
     fn test_field_selector_filter() {
         let dto = TestDto {
@@ -312,7 +318,9 @@ mod tests {
             fields: Some("id,name".to_string()),
         };
 
-        let filtered = selector.filter(&dto).unwrap();
+        let auth = AuthContext::anonymous();
+
+        let filtered = selector.filter_secure(&dto, &auth).unwrap();
         let obj = filtered.as_object().unwrap();
 
         assert!(obj.contains_key("id"));

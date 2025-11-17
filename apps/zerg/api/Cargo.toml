@@ -21,7 +21,7 @@ eyre = { workspace = true }
 eyre-span = "0.1.0"
 sea-orm = { workspace = true }
 sea-orm-migration = { workspace = true }
-selectable_fields = { workspace = true }
+proc_macros = { workspace = true, features = ["selectable_fields"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }

@@ -9,6 +9,7 @@ members = [
     'libs/app',
     'libs/config',
     'libs/proc_macros',
+    'libs/proc_macros/api_resource',
     'libs/proc_macros/selectable_fields',
     'libs/rpc',
     'libs/services',
@@ -16,6 +17,7 @@ members = [
 
 [workspace.dependencies]
 #anyhow = '1.0'
+api_resource = { path = 'libs/proc_macros/api_resource' }
 app = { path = 'libs/app' }
 argon2 = '0.5'
 async-stream = '0.3'
@@ -55,8 +57,8 @@ redis = { version = '1.0.0-rc.3', features = ['aio', 'r2d2', 'tokio-comp', 'conn
 #reflective = { path = 'libs/proc_macros/reflective' }
 reqwest = { version = '0.12', features = ['json', 'rustls-tls'], default-features = false }
 schemars = '1.0'
-sea-orm = { version = '1.1', features = ['sqlx-postgres', 'runtime-tokio-rustls', 'macros', 'with-uuid', 'with-chrono', 'mock', 'debug-print', 'with-json'] }
-sea-orm-migration = { version = '1.1', features = ['sqlx-postgres', 'runtime-tokio-rustls'] }
+sea-orm = { version = '2.0.0-rc.18', features = ['sqlx-postgres', 'runtime-tokio-rustls', 'macros', 'with-uuid', 'with-chrono', 'mock', 'debug-print', 'with-json'] }
+sea-orm-migration = { version = '2.0.0-rc.18', features = ['sqlx-postgres', 'runtime-tokio-rustls'] }
 selectable_fields = { path = 'libs/proc_macros/selectable_fields' }
 serde = { version = '1.0', features = ['derive'] }
 serde_json = { version = '1.0' }

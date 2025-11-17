@@ -1,0 +1,5 @@
+error: Unexpected type `bool`
+ --> tests/ui/unit_struct.rs:4:22
+  |
+4 | #[api_resource(url = true)]  // Should fail - url must be a string
+  |                      ^^^^

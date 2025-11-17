@@ -36,7 +36,7 @@ pub struct UpdateUserDto {
     pub password: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema, selectable_fields::SelectableFields)]
+#[derive(Debug, Serialize, Deserialize, ToSchema, proc_macros::SelectableFields)]
 pub struct UserResponseDto {
     /// Unique identifier
     pub id: Uuid,

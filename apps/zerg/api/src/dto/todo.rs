@@ -32,7 +32,7 @@ pub struct UpdateTodoDto {
     pub completed: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema, selectable_fields::SelectableFields)]
+#[derive(Debug, Serialize, Deserialize, ToSchema, proc_macros::SelectableFields)]
 pub struct TodoResponseDto {
     /// Unique identifier
     pub id: Uuid,

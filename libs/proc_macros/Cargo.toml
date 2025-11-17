@@ -3,6 +3,13 @@ name = "proc_macros"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = []
+selectable_fields = ["dep:selectable_fields"]
+api_resource = ["dep:api_resource"]
+
 [dependencies]
+api_resource = { workspace = true, optional = true }
+selectable_fields = { workspace = true, optional = true }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

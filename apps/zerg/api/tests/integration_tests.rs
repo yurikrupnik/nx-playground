@@ -1,7 +1,6 @@
 mod common;
 
 use axum::extract::{Path, Query, State};
-use chrono::Utc;
 use pretty_assertions::assert_eq;
 use sea_orm::{ActiveModelTrait, EntityTrait, Set};
 use uuid::Uuid;

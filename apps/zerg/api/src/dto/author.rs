@@ -26,7 +26,7 @@ pub struct UpdateAuthorDto {
     pub bio: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema, selectable_fields::SelectableFields)]
+#[derive(Debug, Serialize, Deserialize, ToSchema, proc_macros::SelectableFields)]
 pub struct AuthorResponseDto {
     /// Unique identifier
     pub id: Uuid,

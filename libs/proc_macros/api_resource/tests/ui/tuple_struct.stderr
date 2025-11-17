@@ -1,0 +1,5 @@
+error: Unexpected type `int`
+ --> tests/ui/tuple_struct.rs:4:29
+  |
+4 | #[api_resource(collection = 123)]  // Should fail - collection must be a string
+  |                             ^^^

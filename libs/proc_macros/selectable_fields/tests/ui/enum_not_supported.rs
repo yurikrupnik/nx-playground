@@ -1,4 +1,4 @@
-use selectable_fields::SelectableFields;
+use proc_macros::SelectableFields;
 
 #[derive(SelectableFields)]
 pub enum Status {  // Should panic - only structs supported

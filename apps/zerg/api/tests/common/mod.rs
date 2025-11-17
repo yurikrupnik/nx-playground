@@ -3,7 +3,8 @@ use testcontainers::{runners::AsyncRunner, ContainerAsync};
 use testcontainers_modules::postgres::Postgres;
 use zerg_api::{db, state::AppState};
 
-/// Test container for PostgreSQL database
+/// Test container for a PostgreSQL database
+#[allow(dead_code)]
 pub struct TestDb {
     pub container: ContainerAsync<Postgres>,
     pub app_state: AppState,
@@ -56,6 +57,7 @@ impl TestDb {
 }
 
 /// Helper to create sample user data for testing
+#[allow(dead_code)]
 pub mod fixtures {
     use chrono::Utc;
     use uuid::Uuid;
