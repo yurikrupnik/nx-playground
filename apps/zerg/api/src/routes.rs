@@ -1,3 +1,4 @@
+use app::health::run_health_checks;
 use axum::{
     extract::State,
     http::StatusCode,
@@ -5,7 +6,7 @@ use axum::{
     Json, Router,
 };
 use sea_orm::DatabaseConnection;
-use serde_json::{json, Value};
+use serde_json::Value;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
@@ -66,29 +67,33 @@ async fn health_check() -> &'static str {
 }
 
 /// Readiness check endpoint for Kubernetes readiness probe
-/// Checks if the application is ready to serve traffic (DB connection is healthy)
+/// Checks if the application is ready to serve traffic (DB and Redis connections are healthy)
 async fn readiness_check(
     State(state): State<AppState>,
 ) -> Result<(StatusCode, Json<Value>), (StatusCode, Json<Value>)> {
-    match check_database_connection(state.db()).await {
-        Ok(_) => Ok((
-            StatusCode::OK,
-            Json(json!({
-                "status": "ready",
-                "database": "connected"
-            })),
-        )),
-        Err(e) => {
-            tracing::error!("Readiness check failed: database connection error: {:?}", e);
-            Err((
-                StatusCode::SERVICE_UNAVAILABLE,
-                Json(json!({
-                    "status": "not ready",
-                    "database": "disconnected"
-                })),
-            ))
-        }
-    }
+    let db = state.db();
+    let redis = state.redis().clone();
+
+    let checks = vec![
+        (
+            "database",
+            Box::pin(async move {
+                check_database_connection(db)
+                    .await
+                    .map_err(|e| e.to_string())
+            }) as app::health::HealthCheckFuture,
+        ),
+        (
+            "redis",
+            Box::pin(async move {
+                check_redis_connection(redis)
+                    .await
+                    .map_err(|e| e.to_string())
+            }) as app::health::HealthCheckFuture,
+        ),
+    ];
+
+    run_health_checks(checks).await
 }
 
 /// Helper function to check database connection
@@ -96,4 +101,12 @@ async fn check_database_connection(db: &DatabaseConnection) -> Result<(), sea_or
     // Execute a simple query to verify database connectivity
     db.ping().await?;
     Ok(())
+}
+
+/// Helper function to check Redis connection
+async fn check_redis_connection(
+    mut redis: redis::aio::ConnectionManager,
+) -> Result<(), redis::RedisError> {
+    // Send PING command to verify Redis connectivity
+    redis::cmd("PING").query_async(&mut redis).await
 }

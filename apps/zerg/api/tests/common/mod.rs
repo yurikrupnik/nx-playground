@@ -2,7 +2,10 @@ use sea_orm::Database;
 use services::postgres;
 use testcontainers::{runners::AsyncRunner, ContainerAsync};
 use testcontainers_modules::postgres::Postgres;
-use zerg_api::{migrator::Migrator, state::{AppState, AppStateBuilder}};
+use zerg_api::{
+    migrator::Migrator,
+    state::{AppState, AppStateBuilder},
+};
 
 /// Test container for a PostgreSQL database
 #[allow(dead_code)]
@@ -41,7 +44,7 @@ impl TestDb {
             .expect("Failed to connect to test database");
 
         // Run migrations
-        postgres::run_migrations::<Migrator>(&connection, "zerg_api")
+        postgres::run_migrations::<Migrator>(&connection, env!("CARGO_PKG_NAME"))
             .await
             .expect("Failed to run migrations");
 

@@ -1,0 +1,53 @@
+[package]
+name = "zerg_email"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "zerg_email"
+path = "src/main.rs"
+
+[[bin]]
+name = "send_test_email"
+path = "src/bin/send_test_email.rs"
+
+[dependencies]
+
+# Web framework (for health endpoints)
+axum = { workspace = true }
+color-eyre = { workspace = true }
+# Workspace libs
+config = { workspace = true }
+email = { path = "../../../libs/notifications/email" }
+
+# Error handling
+eyre = { workspace = true }
+
+# Async utils
+futures = { workspace = true }
+
+# Redis
+redis = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+services = { workspace = true }
+
+# Async runtime
+tokio = { workspace = true }
+
+# HTTP middleware
+tower-http = { workspace = true }
+
+# Logging
+tracing = { workspace = true }
+
+# Utils
+uuid = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

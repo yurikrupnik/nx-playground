@@ -1,10 +1,6 @@
 use redis::aio::ConnectionManager;
 use redis::Client;
 
-// fn get_redis_uri() -> String {
-//   Env::get_redis().unwrap()
-// }
-
 #[derive(Clone)]
 pub struct RedisConnector {
     manager: ConnectionManager,

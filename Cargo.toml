@@ -4,10 +4,12 @@ resolver = '2'
 members = [
     'apps/utils/schema-gen',
     'apps/zerg/api',
+    'apps/zerg/email',
     'libs/apis/project',
     'libs/apis/user',
     'libs/app',
     'libs/config',
+    'libs/notifications/email',
     'libs/proc_macros',
     'libs/proc_macros/api_resource',
     'libs/proc_macros/selectable_fields',

@@ -1,5 +1,3 @@
-use zerg_api::{config as app_config, migrator::Migrator, routes, state};
-
 use app_config::Config;
 use config::tracing::init_tracing;
 use eyre::{Result, WrapErr};
@@ -9,6 +7,7 @@ use tower_http::{
     trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
 };
 use tracing::Level;
+use zerg_api::{config as app_config, migrator::Migrator, routes, state};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -34,7 +33,7 @@ async fn main() -> Result<()> {
     )?;
 
     // Run migrations
-    postgres::run_migrations::<Migrator>(&postgres_pool, "zerg_api").await?;
+    postgres::run_migrations::<Migrator>(&postgres_pool, env!("CARGO_PKG_NAME")).await?;
 
     // Create an application state
     let app_state = state::AppState::new(postgres_pool, redis_manager);
