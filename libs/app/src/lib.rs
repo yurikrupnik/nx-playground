@@ -1,7 +1,9 @@
 pub mod app;
 pub mod audit;
+pub mod errors;
 pub mod extractors;
-mod handlers;
+pub mod handlers;
 pub mod health;
 pub mod middleware;
+pub mod responses;
 pub mod shutdown;

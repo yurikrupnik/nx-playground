@@ -1,6 +1,7 @@
 // Library exports for zerg_api
 // This allows integration tests and external crates to use our modules
 
+pub mod api;
 pub mod auth_context;
 pub mod config;
 pub mod dto;

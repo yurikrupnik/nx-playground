@@ -157,6 +157,28 @@ dependencies = [
 [[package]]
 name = "apis_project"
 version = "0.1.0"
+dependencies = [
+ "app",
+ "axum",
+ "chrono",
+ "field-selector",
+ "http",
+ "models_project",
+ "proc_macros",
+ "r2d2",
+ "redis",
+ "sea-orm",
+ "serde",
+ "serde_json",
+ "services",
+ "sqlx",
+ "tokio",
+ "tower",
+ "tracing",
+ "utoipa",
+ "uuid",
+ "validator",
+]
 
 [[package]]
 name = "apis_user"
@@ -172,8 +194,11 @@ dependencies = [
  "eyre",
  "futures",
  "redis",
+ "sea-orm",
+ "sea-orm-migration",
  "serde",
  "serde_json",
+ "thiserror",
  "tokio",
  "tower-http",
  "tracing",
@@ -367,6 +392,28 @@ dependencies = [
  "mime",
  "pin-project-lite",
  "sync_wrapper",
+ "tower-layer",
+ "tower-service",
+ "tracing",
+]
+
+[[package]]
+name = "axum-extra"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5136e6c5e7e7978fe23e9876fb924af2c0f84c72127ac6ac17e7c46f457d362c"
+dependencies = [
+ "axum",
+ "axum-core",
+ "bytes",
+ "futures-core",
+ "futures-util",
+ "headers",
+ "http",
+ "http-body",
+ "http-body-util",
+ "mime",
+ "pin-project-lite",
  "tower-layer",
  "tower-service",
  "tracing",
@@ -1287,6 +1334,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "37909eebbb50d72f9059c3b6d82c0463f2ff062c9e95845c43a6c9c0355411be"
 
 [[package]]
+name = "field-selector"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "axum-extra",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
 name = "filetime"
 version = "0.2.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1581,6 +1641,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7382cf6263419f2d8df38c55d7da83da5c18aef87fc7a7fc1fb1e344edfe14c1"
 dependencies = [
  "hashbrown 0.15.5",
+]
+
+[[package]]
+name = "headers"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b3314d5adb5d94bcdf56771f2e50dbbc80bb4bdf88967526706205ac9eff24eb"
+dependencies = [
+ "base64 0.22.1",
+ "bytes",
+ "headers-core",
+ "http",
+ "httpdate",
+ "mime",
+ "sha1",
+]
+
+[[package]]
+name = "headers-core"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "54b4a22553d4242c49fddb9ba998a99962b5cc6f22cb5a3482bec22522403ce4"
+dependencies = [
+ "http",
 ]
 
 [[package]]
@@ -2231,6 +2315,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "models_project"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "field-selector",
+ "proc_macros",
+ "sea-orm",
+ "serde",
+ "services",
+ "sqlx",
+ "typeshare",
+ "utoipa",
+ "uuid",
+ "validator",
+]
+
+[[package]]
+name = "models_task"
+version = "0.1.0"
+
+[[package]]
 name = "native-tls"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2730,6 +2835,7 @@ name = "proc_macros"
 version = "0.1.0"
 dependencies = [
  "api_resource",
+ "sea_orm_resource",
  "selectable_fields",
 ]
 
@@ -3541,6 +3647,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "sea_orm_resource"
+version = "0.1.0"
+dependencies = [
+ "darling 0.21.3",
+ "proc-macro2",
+ "proc_macros",
+ "quote",
+ "sea-orm",
+ "serde",
+ "syn 2.0.110",
+ "trybuild",
+]
+
+[[package]]
 name = "seahash"
 version = "4.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3587,9 +3707,11 @@ name = "selectable_fields"
 version = "0.1.0"
 dependencies = [
  "darling 0.21.3",
+ "field-selector",
  "proc-macro2",
  "proc_macros",
  "quote",
+ "serde",
  "syn 2.0.110",
  "trybuild",
 ]
@@ -4726,6 +4848,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "562d481066bde0658276a35467c4af00bdc6ee726305698a55b86e61d7ad82bb"
 
 [[package]]
+name = "typeshare"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "19be0f411120091e76e13e5a0186d8e2bcc3e7e244afdb70152197f1a8486ceb"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+ "typeshare-annotation",
+]
+
+[[package]]
+name = "typeshare-annotation"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a615d6c2764852a2e88a4f16e9ce1ea49bb776b5872956309e170d63a042a34f"
+dependencies = [
+ "quote",
+ "syn 2.0.110",
+]
+
+[[package]]
 name = "typetag"
 version = "0.2.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5568,6 +5712,7 @@ dependencies = [
  "config",
  "eyre",
  "eyre-span",
+ "field-selector",
  "pretty_assertions",
  "proc_macros",
  "redis",

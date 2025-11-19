@@ -1,5 +1,5 @@
 [package]
-name = "selectable_fields"
+name = "sea_orm_resource"
 version = "0.1.0"
 edition = "2021"
 
@@ -13,7 +13,7 @@ quote = { workspace = true }
 syn = { workspace = true }
 
 [dev-dependencies]
-field-selector = { workspace = true }
-proc_macros = { workspace = true, features = ["selectable_fields"] }
+proc_macros = { workspace = true, features = ["sea_orm_resource"] }
+sea-orm = { workspace = true }
 serde = { workspace = true }
 trybuild = { workspace = true }

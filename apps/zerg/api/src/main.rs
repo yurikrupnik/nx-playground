@@ -1,4 +1,5 @@
 use app_config::Config;
+use axum::Router;
 use config::tracing::init_tracing;
 use eyre::{Result, WrapErr};
 use services::{postgres, redis};
@@ -37,6 +38,8 @@ async fn main() -> Result<()> {
 
     // Create an application state
     let app_state = state::AppState::new(postgres_pool, redis_manager);
+    // let r = create_router().await?;
+    // let a = create_app(app_state, config.environmen ).await?;
 
     // Build router with middleware
     let app = routes::create_router()

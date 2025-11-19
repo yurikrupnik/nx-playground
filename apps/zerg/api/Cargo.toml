@@ -20,6 +20,7 @@ color-eyre = "0.6"
 config = { workspace = true }  # Shared config library
 eyre = { workspace = true }
 eyre-span = "0.1.0"
+field-selector = { workspace = true, features = ["axum"] }
 proc_macros = { workspace = true, features = ["selectable_fields"] }
 redis = { workspace = true }
 sea-orm = { workspace = true }

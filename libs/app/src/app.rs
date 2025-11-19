@@ -7,8 +7,8 @@ use axum::{
 use config::server::ServerConfig;
 use eyre::Result;
 use tower_http::cors::CorsLayer;
-use tower_http::trace::TraceLayer;
-use tracing::info;
+use tower_http::trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer};
+use tracing::{info, Level};
 use utoipa::OpenApi;
 use utoipa_rapidoc::RapiDoc;
 use utoipa_redoc::{Redoc, Servable as RedocServable};
@@ -102,6 +102,10 @@ where
         .with_state(state)
         // .fallback(not_found)
         // .layer(cors)
-        .layer(TraceLayer::new_for_http())
+        .layer(
+            TraceLayer::new_for_http()
+                .make_span_with(DefaultMakeSpan::new().level(Level::INFO))
+                .on_response(DefaultOnResponse::new().level(Level::INFO)),
+        )
         .layer(middleware::from_fn(security_headers)))
 }
