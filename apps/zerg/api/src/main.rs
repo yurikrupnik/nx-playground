@@ -1,14 +1,9 @@
+use app::app::{create_app, create_router};
 use app_config::Config;
-use axum::Router;
 use config::tracing::init_tracing;
 use eyre::{Result, WrapErr};
 use services::{postgres, redis};
-use tower_http::{
-    cors::CorsLayer,
-    trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
-};
-use tracing::Level;
-use zerg_api::{config as app_config, migrator::Migrator, routes, state};
+use zerg_api::{api, config as app_config, migrator::Migrator, openapi::ApiDoc, state};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -38,24 +33,15 @@ async fn main() -> Result<()> {
 
     // Create an application state
     let app_state = state::AppState::new(postgres_pool, redis_manager);
-    // let r = create_router().await?;
-    // let a = create_app(app_state, config.environmen ).await?;
 
-    // Build router with middleware
-    let app = routes::create_router()
-        .layer(
-            TraceLayer::new_for_http()
-                .make_span_with(DefaultMakeSpan::new().level(Level::INFO))
-                .on_response(DefaultOnResponse::new().level(Level::INFO)),
-        )
-        .layer(CorsLayer::permissive())
-        .with_state(app_state);
+    // Create API routes
+    let api_routes = api::routes();
 
-    // Start server
-    let address = config.server.address();
+    // Build router with middleware using generic create_router
+    let app = create_router::<ApiDoc, state::AppState>(app_state, api_routes).await?;
 
-    let listener = tokio::net::TcpListener::bind(&address).await?;
-    axum::serve(listener, app).await?;
+    // Start server using generic create_app
+    create_app(app, &config.server).await?;
 
     Ok(())
 }

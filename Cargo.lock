@@ -5702,6 +5702,7 @@ dependencies = [
 name = "zerg_api"
 version = "0.1.0"
 dependencies = [
+ "apis_project",
  "app",
  "argon2",
  "async-trait",

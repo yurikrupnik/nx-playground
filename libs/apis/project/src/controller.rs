@@ -1,25 +1,21 @@
 use super::model::{
-    ActiveModel as ProjectActiveModel, CreateProjectDto, Entity as Project, ProjectResponseDto,
+    ActiveModel as ProjectActiveModel, CreateProject, Entity as Project, ProjectResponse,
 };
 use super::state::ProjectState;
 use app::{
     errors::AppError,
-    extractors::{UuidPath, ValidatedJson},
-    responses::{
-        BadRequestUuidResponse, BadRequestValidationResponse, InternalServerErrorResponse,
-        NotFoundResponse,
-    },
+    extractors::ValidatedJson,
+    responses::{BadRequestValidationResponse, InternalServerErrorResponse, NotFoundResponse},
 };
 use axum::{
-    extract::{Json, Query, State},
+    extract::{Json, Path, Query, State},
     http::StatusCode,
 };
 use chrono::Utc;
 use field_selector::{AuthContext, FieldSelector};
 use sea_orm::entity::prelude::*;
-use sea_orm::{ActiveModelTrait, Set};
+use sea_orm::{ActiveModelTrait, NotSet, Set};
 use serde_json::Value;
-use uuid::Uuid;
 // use events::{publish_event, ProjectEvent};
 // use services::postgres::service::SqlMethods;
 
@@ -39,7 +35,7 @@ pub struct ListProjectsParams {
         ("completed" = Option<bool>, Query, description = "Filter by completed status")
     ),
     responses(
-        (status = 200, description = "List of all projects retrieved successfully", body = [ProjectResponseDto]),
+        (status = 200, description = "List of all projects retrieved successfully", body = [ProjectResponse]),
         (status = 500, response = InternalServerErrorResponse),
     ),
 )]
@@ -57,8 +53,8 @@ pub async fn get_projects<S: ProjectState>(
         query = query.filter(Column::Completed.eq(completed));
     }
 
-    let projects = query.all(state.pool()).await?;
-    let response: Vec<ProjectResponseDto> = projects.into_iter().map(|p| p.into()).collect();
+    let projects = query.all(state.db()).await?;
+    let response: Vec<ProjectResponse> = projects.into_iter().map(|p| p.into()).collect();
 
     let filtered = params
         .field_selector
@@ -72,9 +68,9 @@ pub async fn get_projects<S: ProjectState>(
     post,
     path = "/api/project",
     tag = "Projects",
-    request_body = CreateProjectDto,
+    request_body = CreateProject,
     responses(
-        (status = 201, description = "Project created successfully", body = ProjectResponseDto),
+        (status = 201, description = "Project created successfully", body = ProjectResponse),
         (status = 400, response = BadRequestValidationResponse),
         (status = 403, description = "Missing or invalid CSRF token"),
         (status = 500, response = InternalServerErrorResponse),
@@ -85,10 +81,10 @@ pub async fn get_projects<S: ProjectState>(
 )]
 pub async fn create_project<S: ProjectState>(
     State(state): State<S>,
-    ValidatedJson(body): ValidatedJson<CreateProjectDto>,
-) -> Result<(StatusCode, Json<ProjectResponseDto>), AppError> {
+    ValidatedJson(body): ValidatedJson<CreateProject>,
+) -> Result<(StatusCode, Json<ProjectResponse>), AppError> {
     let project = ProjectActiveModel {
-        id: Set(Uuid::now_v7()),
+        id: NotSet,
         title: Set(body.title),
         description: Set(body.description),
         completed: Set(body.completed),
@@ -96,8 +92,8 @@ pub async fn create_project<S: ProjectState>(
         updated_at: Set(Utc::now().into()),
     };
 
-    let project = project.insert(state.pool()).await?;
-    // let project = Project::create_item(state.pool(), &body).await?;
+    let project = project.insert(state.db()).await?;
+    // let project = Project::create_item(state.db(), &body).await?;
     //
     // let event = ProjectEvent::Created(project.clone());
     // publish_event(state.redis(), &event).await;
@@ -122,7 +118,7 @@ pub async fn create_project<S: ProjectState>(
 pub async fn delete_project<S: ProjectState>(
     State(state): State<S>,
 ) -> Result<StatusCode, AppError> {
-    Project::delete_many().exec(state.pool()).await?;
+    Project::delete_many().exec(state.db()).await?;
     Ok(StatusCode::OK)
 }
 
@@ -131,30 +127,29 @@ pub async fn delete_project<S: ProjectState>(
     path = "/api/project/{id}",
     tag = "Projects",
     params(
-        ("id", description = "Unique UUID of the project")
+        ("id", description = "Unique ID of the project")
     ),
     responses(
-        (status = 200, description = "Project found successfully", body = ProjectResponseDto),
-        (status = 400, response = BadRequestUuidResponse),
+        (status = 200, description = "Project found successfully", body = ProjectResponse),
         (status = 404, response = NotFoundResponse),
         (status = 500, response = InternalServerErrorResponse),
     ),
 )]
 pub async fn get_project<S: ProjectState>(
     State(state): State<S>,
-    UuidPath(id): UuidPath,
+    Path(id): Path<i64>,
     Query(field_selector): Query<FieldSelector>,
-) -> Result<(StatusCode, Json<ProjectResponseDto>), AppError> {
-    // let result = Project::find_by_id(id).one(state.pool()).await?;
+) -> Result<(StatusCode, Json<ProjectResponse>), AppError> {
+    // let result = Project::find_by_id(id).one(state.db()).await?;
     let project = Project::find_by_id(id)
-        .one(state.pool())
+        .one(state.db())
         .await?
         .ok_or(AppError::NotFound(format!(
             "Project with id {} not found",
             id
         )))?;
 
-    let response: ProjectResponseDto = project.into();
+    let response: ProjectResponse = project.into();
 
     // let filtered = field_selector
     //   .filter_secure(&response, &auth)
@@ -169,20 +164,19 @@ pub async fn get_project<S: ProjectState>(
     path = "/api/project/{id}",
     tag = "Projects",
     params(
-        ("id", description = "Unique UUID of the project")
+        ("id", description = "Unique ID of the project")
     ),
     responses(
         (status = 200, description = "Project deleted successfully"),
-        (status = 400, response = BadRequestUuidResponse),
         (status = 404, response = NotFoundResponse),
         (status = 500, response = InternalServerErrorResponse),
     ),
 )]
 pub async fn delete_project_by_id<S: ProjectState>(
     State(state): State<S>,
-    UuidPath(id): UuidPath,
+    Path(id): Path<i64>,
 ) -> Result<StatusCode, AppError> {
-    let result = Project::delete_by_id(id).exec(state.pool()).await?;
+    let result = Project::delete_by_id(id).exec(state.db()).await?;
 
     if result.rows_affected == 0 {
         return Err(AppError::NotFound(format!(

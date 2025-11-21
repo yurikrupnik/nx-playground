@@ -46,6 +46,12 @@ impl axum::extract::FromRef<AppState> for ConnectionManager {
         state.redis.clone()
     }
 }
+// use apis_project::state::ProjectState;
+impl apis_project::state::ProjectState for AppState {
+  fn db(&self) -> &DatabaseConnection { &self.db }
+
+  fn redis(&self) -> &ConnectionManager { &self.redis }
+}
 
 // ✅ Builder pattern for flexible AppState construction
 // This prevents tests from breaking when new fields are added to AppState

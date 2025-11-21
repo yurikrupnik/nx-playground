@@ -4,6 +4,8 @@ mod m20250114_000001_create_users_table;
 mod m20250114_000002_create_todos_table;
 mod m20250114_000003_create_authors_table;
 mod m20250114_000004_create_books_table;
+mod m20250114_000005_create_projects_table;
+mod m20250114_000006_seed_initial_data;
 
 pub struct Migrator;
 
@@ -15,6 +17,8 @@ impl MigratorTrait for Migrator {
             Box::new(m20250114_000002_create_todos_table::Migration),
             Box::new(m20250114_000003_create_authors_table::Migration),
             Box::new(m20250114_000004_create_books_table::Migration),
+            Box::new(m20250114_000005_create_projects_table::Migration),
+            Box::new(m20250114_000006_seed_initial_data::Migration),
         ]
     }
 }
