@@ -1,0 +1,23 @@
+[package]
+name = "apis_bike"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+app = { path = "../../app" }
+services = { path = "../../services" }
+
+axum.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+validator.workspace = true
+utoipa.workspace = true
+sqlx = { workspace = true, features = ["postgres", "runtime-tokio-rustls", "macros", "chrono", "uuid"] }
+chrono = { workspace = true, features = ["serde"] }
+uuid = { workspace = true, features = ["serde", "v4"] }
+redis.workspace = true
+
+[dev-dependencies]
+testcontainers.workspace = true
+testcontainers-modules.workspace = true

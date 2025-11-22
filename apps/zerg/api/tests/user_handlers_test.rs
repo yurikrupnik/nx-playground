@@ -50,6 +50,8 @@ async fn setup_mock_state_with_users() -> AppState {
     // ✅ Use builder - Redis will be mocked automatically
     AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build()
@@ -117,6 +119,8 @@ async fn test_get_user_by_id() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -145,6 +149,8 @@ async fn test_get_user_not_found() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -223,6 +229,8 @@ async fn test_create_user() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -271,6 +279,8 @@ async fn test_update_user() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -308,6 +318,8 @@ async fn test_delete_user() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();

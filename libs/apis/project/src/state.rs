@@ -1,8 +1,8 @@
-use redis::aio::ConnectionManager;
-use sea_orm::DatabaseConnection;
-// use sqlx::PgPool;
+/// ProjectState trait composed from HasDatabase and HasRedis
+///
+/// Any type that implements both HasDatabase and HasRedis automatically
+/// implements ProjectState - no need for additional impl blocks!
+pub trait ProjectState: app::state::HasDatabase + app::state::HasRedis {}
 
-pub trait ProjectState: Clone + Send + Sync + 'static {
-    fn db(&self) -> &DatabaseConnection;
-    fn redis(&self) -> &ConnectionManager;
-}
+/// Blanket implementation: any type with HasDatabase + HasRedis gets ProjectState for free
+impl<T> ProjectState for T where T: app::state::HasDatabase + app::state::HasRedis {}

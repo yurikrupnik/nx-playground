@@ -54,6 +54,8 @@ async fn setup_mock_state_for_create_book() -> (AppState, Uuid, Uuid) {
     (
         AppStateBuilder::new()
             .with_db(db)
+            .with_mongo_mock()
+            .await
             .with_redis_mock()
             .await
             .build(),
@@ -84,6 +86,8 @@ async fn setup_mock_state_with_books() -> (AppState, Uuid, Uuid) {
     (
         AppStateBuilder::new()
             .with_db(db)
+            .with_mongo_mock()
+            .await
             .with_redis_mock()
             .await
             .build(),
@@ -209,6 +213,8 @@ async fn test_list_books_with_authors() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -255,6 +261,8 @@ async fn test_get_book_with_author() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -333,6 +341,8 @@ async fn test_update_book() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -384,6 +394,8 @@ async fn test_delete_book() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();

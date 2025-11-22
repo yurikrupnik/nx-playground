@@ -55,6 +55,8 @@ async fn setup_mock_state_with_todos() -> AppState {
 
     AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build()
@@ -130,6 +132,8 @@ async fn test_get_todo_by_id() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -158,6 +162,8 @@ async fn test_get_todo_not_found() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -193,6 +199,8 @@ async fn test_create_todo_validation() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -240,6 +248,8 @@ async fn test_update_todo() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -278,6 +288,8 @@ async fn test_delete_todo() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();

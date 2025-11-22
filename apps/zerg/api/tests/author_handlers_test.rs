@@ -46,6 +46,8 @@ async fn setup_mock_state_with_authors() -> AppState {
 
     AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build()
@@ -112,6 +114,8 @@ async fn test_get_author_by_id() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -139,6 +143,8 @@ async fn test_get_author_not_found() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -174,6 +180,8 @@ async fn test_create_author() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -219,6 +227,8 @@ async fn test_update_author() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();
@@ -254,6 +264,8 @@ async fn test_delete_author() {
 
     let state = AppStateBuilder::new()
         .with_db(db)
+        .with_mongo_mock()
+        .await
         .with_redis_mock()
         .await
         .build();

@@ -7,3 +7,4 @@ pub mod health;
 pub mod middleware;
 pub mod responses;
 pub mod shutdown;
+pub mod state;

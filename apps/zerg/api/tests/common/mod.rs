@@ -1,42 +1,74 @@
 use sea_orm::Database;
 use services::postgres;
-use testcontainers::{runners::AsyncRunner, ContainerAsync};
-use testcontainers_modules::postgres::Postgres;
+use testcontainers::{runners::AsyncRunner, ContainerAsync, ImageExt};
+use testcontainers_modules::{mongo::Mongo, postgres::Postgres, redis::Redis};
 use zerg_api::{
     migrator::Migrator,
     state::{AppState, AppStateBuilder},
 };
 
-/// Test container for a PostgreSQL database
+/// Test container for a PostgreSQL database with Redis and MongoDB
 #[allow(dead_code)]
 pub struct TestDb {
-    pub container: ContainerAsync<Postgres>,
+    pub postgres_container: ContainerAsync<Postgres>,
+    pub mongo_container: ContainerAsync<Mongo>,
+    pub redis_container: ContainerAsync<Redis>,
     pub app_state: AppState,
     pub connection_string: String,
 }
 
 impl TestDb {
-    /// Creates a new test database with migrations applied
-    ///
-    /// Redis is mocked - tests that don't use Redis will work fine.
-    /// When you add Redis business logic, you can add a real Redis testcontainer.
+    /// Creates a new test database with migrations applied and testcontainers for all services
     pub async fn new() -> Self {
-        // Start PostgreSQL container
-        let postgres_image = Postgres::default();
-        let container = postgres_image
+        // Start PostgreSQL container with latest version
+        let postgres_image = Postgres::default().with_tag("17-alpine");
+        let postgres_container = postgres_image
             .start()
             .await
             .expect("Failed to start postgres container");
 
-        let host_port = container
+        let host_port = postgres_container
             .get_host_port_ipv4(5432)
             .await
-            .expect("Failed to get host port");
+            .expect("Failed to get postgres host port");
 
         let connection_string = format!(
             "postgres://postgres:postgres@localhost:{}/postgres",
             host_port
         );
+
+        // Start MongoDB container with latest version
+        // Using specific startup timeout to handle parallel test execution
+        let mongo_image = Mongo::default()
+            .with_tag("7")
+            .with_startup_timeout(std::time::Duration::from_secs(180));
+        let mongo_container = mongo_image
+            .start()
+            .await
+            .expect("Failed to start MongoDB container");
+
+        let mongo_port = mongo_container
+            .get_host_port_ipv4(27017)
+            .await
+            .expect("Failed to get MongoDB host port");
+
+        let mongo_uri = format!("mongodb://localhost:{}/", mongo_port);
+
+        // Start Redis container with latest version
+        let redis_image = Redis::default()
+            .with_tag("7-alpine")
+            .with_startup_timeout(std::time::Duration::from_secs(180));
+        let redis_container = redis_image
+            .start()
+            .await
+            .expect("Failed to start Redis container");
+
+        let redis_port = redis_container
+            .get_host_port_ipv4(6379)
+            .await
+            .expect("Failed to get Redis host port");
+
+        let redis_url = format!("redis://localhost:{}/", redis_port);
 
         // Connect to database
         let connection = Database::connect(&connection_string)
@@ -48,15 +80,35 @@ impl TestDb {
             .await
             .expect("Failed to run migrations");
 
-        // Build AppState with mock Redis (safe for tests that don't use Redis)
+        // Create sqlx pool
+        let sqlx_pool = sqlx::PgPool::connect(&connection_string)
+            .await
+            .expect("Failed to create sqlx pool");
+
+        // Connect to MongoDB
+        let mongo_client = mongodb::Client::with_uri_str(&mongo_uri)
+            .await
+            .expect("Failed to connect to MongoDB");
+        let mongo = mongo_client.database("test");
+
+        // Connect to Redis
+        let redis_client = redis::Client::open(redis_url).expect("Failed to create Redis client");
+        let redis_manager = redis::aio::ConnectionManager::new(redis_client)
+            .await
+            .expect("Failed to create Redis connection manager");
+
+        // Build AppState with real testcontainer connections
         let app_state = AppStateBuilder::new()
             .with_db(connection)
-            .with_redis_mock()
-            .await
+            .with_mongo(mongo)
+            .with_redis(redis_manager)
+            .with_sqlx_pool(sqlx_pool)
             .build();
 
         Self {
-            container,
+            postgres_container,
+            mongo_container,
+            redis_container,
             app_state,
             connection_string,
         }

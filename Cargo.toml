@@ -5,6 +5,8 @@ members = [
     'apps/utils/schema-gen',
     'apps/zerg/api',
     'apps/zerg/email',
+    'libs/apis/bike',
+    'libs/apis/car',
     'libs/apis/project',
     'libs/apis/user',
     'libs/app',
@@ -50,6 +52,9 @@ k8s-openapi = { version = '0.26', features = ['v1_34'] }
 kube = { version = '2.0', features = ['derive', 'runtime'] }
 models_project = { path = 'libs/models/project' }
 apis_project = { path = 'libs/apis/project' }
+apis_car = { path = 'libs/apis/car' }
+apis_bike = { path = 'libs/apis/bike' }
+mongodb = "3.4"
 oauth2 = '5.0'
 pluralizer = '0.5'
 proc-macro2 = '1.0'
@@ -84,6 +89,8 @@ tower-http = { version = '0.6', features = ['timeout', 'trace', 'compression-ful
 tower_governor = '0.8'
 tracing = '0.1'
 tracing-subscriber = { version = '0.3', features = ['env-filter', 'json', 'serde_json'] }
+testcontainers = '0.25'
+testcontainers-modules = { version = '0.13', features = ['postgres', 'mongo', 'redis'] }
 trybuild = '1.0'
 ts-rs = '11.1'
 typeshare = '1.0'
@@ -95,7 +102,7 @@ utoipa-scalar = { version = '0.3', features = ['axum'] }
 utoipa-swagger-ui = { version = '9.0', features = ['axum'] }
 uuid = { version = '1.18', features = ['serde', 'v4', 'v7'] }
 validator = { version = '0.20', features = ['derive'] }
-walkdir = '2.3'
+walkdir = '2.5'
 
 [profile.release]
 opt-level = 'z'

@@ -1,5 +1,7 @@
 use crate::state::AppState;
 use axum::Router;
+use apis_bike::router::router as bike_router;
+use apis_car::router::router as car_router;
 use apis_project::router::router as project_router;
 
 // pub mod auth;
@@ -13,6 +15,8 @@ use apis_project::router::router as project_router;
 pub fn routes() -> Router<AppState> {
     Router::new()
         .merge(project_router::<AppState>())
+        .merge(car_router::<AppState>())
+        .merge(bike_router::<AppState>())
     // Add more routers here as they're implemented:
     // .merge(task_router::<AppState>())
     // .nest("/streaming", streaming_router())
