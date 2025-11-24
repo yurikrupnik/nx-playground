@@ -25,6 +25,9 @@ members = [
 
 [workspace.dependencies]
 api_resource = { path = 'libs/proc_macros/api_resource' }
+apis_bike = { path = 'libs/apis/bike' }
+apis_car = { path = 'libs/apis/car' }
+apis_project = { path = 'libs/apis/project' }
 app = { path = 'libs/app' }
 argon2 = '0.5'
 async-stream = '0.3'
@@ -51,9 +54,6 @@ jsonwebtoken = { version = '10.1', features = ['aws_lc_rs'] }
 k8s-openapi = { version = '0.26', features = ['v1_34'] }
 kube = { version = '2.0', features = ['derive', 'runtime'] }
 models_project = { path = 'libs/models/project' }
-apis_project = { path = 'libs/apis/project' }
-apis_car = { path = 'libs/apis/car' }
-apis_bike = { path = 'libs/apis/bike' }
 mongodb = "3.4"
 oauth2 = '5.0'
 pluralizer = '0.5'
@@ -78,6 +78,8 @@ sqlx = { version = '0.8', default-features = false, features = ['postgres', 'run
 strum = { version = '0.27', features = ['derive'] }
 syn = { version = '2.0', features = ['full', 'extra-traits', 'visit'] }
 tabled = '0.20'
+testcontainers = '0.25'
+testcontainers-modules = { version = '0.13', features = ['postgres', 'mongo', 'redis'] }
 thiserror = '2.0'
 tokio = { version = '1.48', features = ['full'] }
 tokio-stream = { version = '0.1', features = ['sync'] }
@@ -89,8 +91,6 @@ tower-http = { version = '0.6', features = ['timeout', 'trace', 'compression-ful
 tower_governor = '0.8'
 tracing = '0.1'
 tracing-subscriber = { version = '0.3', features = ['env-filter', 'json', 'serde_json'] }
-testcontainers = '0.25'
-testcontainers-modules = { version = '0.13', features = ['postgres', 'mongo', 'redis'] }
 trybuild = '1.0'
 ts-rs = '11.1'
 typeshare = '1.0'

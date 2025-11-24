@@ -31,6 +31,7 @@ reset-db:
 
 schema:
   cargo run --bin schema-gen -- --format all -o docs
+#  docker rm $(docker ps -aq) -f
 test-all:
   cargo nextest run --workspace
 buf:

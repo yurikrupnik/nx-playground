@@ -18,37 +18,77 @@ pub struct Bike {
 
 #[derive(Debug, Deserialize, Validate, ToSchema)]
 pub struct CreateBike {
-    #[validate(length(min = 1, max = 100, message = "Brand must be between 1 and 100 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 100,
+        message = "Brand must be between 1 and 100 characters"
+    ))]
     pub brand: String,
 
-    #[validate(length(min = 1, max = 100, message = "Model must be between 1 and 100 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 100,
+        message = "Model must be between 1 and 100 characters"
+    ))]
     pub model: String,
 
-    #[validate(length(min = 1, max = 50, message = "Type must be between 1 and 50 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 50,
+        message = "Type must be between 1 and 50 characters"
+    ))]
     pub bike_type: String,
 
-    #[validate(range(min = 30, max = 70, message = "Frame size must be between 30 and 70 cm"))]
+    #[validate(range(
+        min = 30,
+        max = 70,
+        message = "Frame size must be between 30 and 70 cm"
+    ))]
     pub frame_size: i32,
 
-    #[validate(length(min = 1, max = 50, message = "Color must be between 1 and 50 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 50,
+        message = "Color must be between 1 and 50 characters"
+    ))]
     pub color: String,
 }
 
 #[derive(Debug, Deserialize, Validate, ToSchema)]
 pub struct UpdateBike {
-    #[validate(length(min = 1, max = 100, message = "Brand must be between 1 and 100 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 100,
+        message = "Brand must be between 1 and 100 characters"
+    ))]
     pub brand: Option<String>,
 
-    #[validate(length(min = 1, max = 100, message = "Model must be between 1 and 100 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 100,
+        message = "Model must be between 1 and 100 characters"
+    ))]
     pub model: Option<String>,
 
-    #[validate(length(min = 1, max = 50, message = "Type must be between 1 and 50 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 50,
+        message = "Type must be between 1 and 50 characters"
+    ))]
     pub bike_type: Option<String>,
 
-    #[validate(range(min = 30, max = 70, message = "Frame size must be between 30 and 70 cm"))]
+    #[validate(range(
+        min = 30,
+        max = 70,
+        message = "Frame size must be between 30 and 70 cm"
+    ))]
     pub frame_size: Option<i32>,
 
-    #[validate(length(min = 1, max = 50, message = "Color must be between 1 and 50 characters"))]
+    #[validate(length(
+        min = 1,
+        max = 50,
+        message = "Color must be between 1 and 50 characters"
+    ))]
     pub color: Option<String>,
 }
 

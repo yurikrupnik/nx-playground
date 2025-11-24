@@ -18,7 +18,12 @@ pub struct AppState {
 
 impl AppState {
     /// Create a new AppState with database, MongoDB, Redis, and sqlx pool connections
-    pub fn new(db: DatabaseConnection, mongo: Database, redis: ConnectionManager, sqlx_pool: PgPool) -> Self {
+    pub fn new(
+        db: DatabaseConnection,
+        mongo: Database,
+        redis: ConnectionManager,
+        sqlx_pool: PgPool,
+    ) -> Self {
         Self {
             db: Arc::new(db),
             mongo,
@@ -148,7 +153,9 @@ impl AppStateBuilder {
 
         AppState {
             db: Arc::new(self.db.expect("Database is required for AppState")),
-            mongo: self.mongo.expect("MongoDB is required for AppState. Use .with_mongo_mock() for tests"),
+            mongo: self
+                .mongo
+                .expect("MongoDB is required for AppState. Use .with_mongo_mock() for tests"),
             redis: self.redis.expect(
                 "Redis is required. For tests, use .with_redis_mock() or provide a real connection",
             ),

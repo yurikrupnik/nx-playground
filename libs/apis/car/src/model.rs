@@ -71,4 +71,3 @@ pub struct UpdateCar {
     #[validate(length(min = 1, max = 50))]
     pub color: Option<String>,
 }
-

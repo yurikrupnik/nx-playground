@@ -51,9 +51,7 @@ mod tests {
         let redis_url = format!("redis://localhost:{}/", redis_port);
 
         // Connect to databases
-        let mongo_client = mongodb::Client::with_uri_str(&mongo_uri)
-            .await
-            .unwrap();
+        let mongo_client = mongodb::Client::with_uri_str(&mongo_uri).await.unwrap();
         let mongo = mongo_client.database("test");
 
         let redis_client = redis::Client::open(redis_url).unwrap();

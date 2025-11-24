@@ -29,8 +29,7 @@ async fn main() -> Result<()> {
             let mongo_client = Client::with_uri_str(&mongo_uri)
                 .await
                 .wrap_err("Failed to connect to MongoDB")?;
-            let db_name = std::env::var("MONGODB_DB_NAME")
-                .unwrap_or_else(|_| "zerg".to_string());
+            let db_name = std::env::var("MONGODB_DB_NAME").unwrap_or_else(|_| "zerg".to_string());
             Ok::<_, eyre::Report>(mongo_client.database(&db_name))
         },
         async {

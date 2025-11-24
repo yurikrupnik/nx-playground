@@ -30,8 +30,14 @@ pub async fn get_cars<S: CarState>(
         .map_err(|e| AppError::DatabaseError(e.to_string()))?;
 
     let mut cars = Vec::new();
-    while cursor.advance().await.map_err(|e| AppError::DatabaseError(e.to_string()))? {
-        let car = cursor.deserialize_current().map_err(|e| AppError::DatabaseError(e.to_string()))?;
+    while cursor
+        .advance()
+        .await
+        .map_err(|e| AppError::DatabaseError(e.to_string()))?
+    {
+        let car = cursor
+            .deserialize_current()
+            .map_err(|e| AppError::DatabaseError(e.to_string()))?;
         cars.push(car);
     }
 
@@ -72,7 +78,9 @@ pub async fn create_car<S: CarState>(
         .await
         .map_err(|e| AppError::DatabaseError(e.to_string()))?;
 
-    let id = result.inserted_id.as_object_id()
+    let id = result
+        .inserted_id
+        .as_object_id()
         .ok_or_else(|| AppError::DatabaseError("Failed to get inserted ID".to_string()))?;
 
     let created_car = Car {
@@ -143,16 +151,28 @@ pub async fn update_car<S: CarState>(
     let mut update_doc = doc! { "$set": { "updated_at": now } };
 
     if let Some(make) = body.make {
-        update_doc.get_document_mut("$set").unwrap().insert("make", make);
+        update_doc
+            .get_document_mut("$set")
+            .unwrap()
+            .insert("make", make);
     }
     if let Some(model) = body.model {
-        update_doc.get_document_mut("$set").unwrap().insert("model", model);
+        update_doc
+            .get_document_mut("$set")
+            .unwrap()
+            .insert("model", model);
     }
     if let Some(year) = body.year {
-        update_doc.get_document_mut("$set").unwrap().insert("year", year);
+        update_doc
+            .get_document_mut("$set")
+            .unwrap()
+            .insert("year", year);
     }
     if let Some(color) = body.color {
-        update_doc.get_document_mut("$set").unwrap().insert("color", color);
+        update_doc
+            .get_document_mut("$set")
+            .unwrap()
+            .insert("color", color);
     }
 
     let result = collection

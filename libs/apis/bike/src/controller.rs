@@ -117,8 +117,8 @@ pub async fn get_bike<S: BikeState>(
 ) -> Result<Json<BikeResponse>, AppError> {
     let pool = state.sqlx_pool();
 
-    let uuid = Uuid::parse_str(&id)
-        .map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
+    let uuid =
+        Uuid::parse_str(&id).map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
 
     let bike = sqlx::query_as::<_, Bike>("SELECT * FROM bikes WHERE id = $1")
         .bind(uuid)
@@ -152,8 +152,8 @@ pub async fn update_bike<S: BikeState>(
 ) -> Result<Json<BikeResponse>, AppError> {
     let pool = state.sqlx_pool();
 
-    let uuid = Uuid::parse_str(&id)
-        .map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
+    let uuid =
+        Uuid::parse_str(&id).map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
 
     // Check if bike exists
     let existing = sqlx::query_as::<_, Bike>("SELECT * FROM bikes WHERE id = $1")
@@ -212,8 +212,8 @@ pub async fn delete_bike<S: BikeState>(
 ) -> Result<StatusCode, AppError> {
     let pool = state.sqlx_pool();
 
-    let uuid = Uuid::parse_str(&id)
-        .map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
+    let uuid =
+        Uuid::parse_str(&id).map_err(|_| AppError::NotFound(format!("Invalid UUID: {}", id)))?;
 
     let result = sqlx::query("DELETE FROM bikes WHERE id = $1")
         .bind(uuid)

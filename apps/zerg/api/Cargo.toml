@@ -11,10 +11,10 @@ name = "zerg_api"
 path = "src/main.rs"
 
 [dependencies]
-app = { workspace = true }
 apis_bike = { workspace = true }
 apis_car = { workspace = true }
 apis_project = { workspace = true }
+app = { workspace = true }
 argon2 = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
@@ -30,9 +30,9 @@ redis = { workspace = true }
 sea-orm = { workspace = true }
 sea-orm-migration = { workspace = true }
 serde = { workspace = true }
-sqlx = { workspace = true }
 serde_json = { workspace = true }
 services = { workspace = true }
+sqlx = { workspace = true }
 testcontainers = { workspace = true }  # For test helpers in state.rs
 testcontainers-modules = { workspace = true }  # For test helpers in state.rs
 thiserror = { workspace = true }

@@ -1,11 +1,11 @@
 /// Tests demonstrating the composition pattern benefits
+mod common;
+
 use app::state::{HasDatabase, HasMongoDB, HasRedis};
 use mongodb::Database;
 use redis::aio::ConnectionManager;
 use sea_orm::DatabaseConnection;
 use std::sync::Arc;
-use testcontainers::{runners::AsyncRunner, ImageExt};
-use testcontainers_modules::{mongo::Mongo, postgres::Postgres, redis::Redis};
 
 /// Demonstrates that a single state can support multiple APIs with different requirements
 #[tokio::test]
@@ -36,55 +36,13 @@ async fn test_composition_pattern_flexibility() {
         }
     }
 
-    // Start containers with latest versions
-    let postgres_container = Postgres::default()
-        .with_tag("17-alpine")
-        .start()
-        .await
-        .expect("Failed to start Postgres container");
-
-    let mongo_container = Mongo::default()
-        .with_tag("7")
-        .with_startup_timeout(std::time::Duration::from_secs(180))
-        .start()
-        .await
-        .expect("Failed to start MongoDB container");
-
-    let redis_container = Redis::default()
-        .with_tag("7-alpine")
-        .with_startup_timeout(std::time::Duration::from_secs(180))
-        .start()
-        .await
-        .expect("Failed to start Redis container");
-
-    // Get connection info
-    let postgres_port = postgres_container.get_host_port_ipv4(5432).await.unwrap();
-    let db_url = format!(
-        "postgresql://postgres:postgres@localhost:{}/postgres",
-        postgres_port
-    );
-
-    let mongo_port = mongo_container.get_host_port_ipv4(27017).await.unwrap();
-    let mongo_uri = format!("mongodb://localhost:{}/", mongo_port);
-
-    let redis_port = redis_container.get_host_port_ipv4(6379).await.unwrap();
-    let redis_url = format!("redis://localhost:{}/", redis_port);
-
-    // Create test connections
-    let db = services::postgres::connect(&db_url).await.unwrap();
-
-    let mongo_client = mongodb::Client::with_uri_str(&mongo_uri)
-        .await
-        .unwrap();
-    let mongo = mongo_client.database("test");
-
-    let redis_client = redis::Client::open(redis_url).unwrap();
-    let redis = ConnectionManager::new(redis_client).await.unwrap();
+    // Use shared containers for better performance
+    let app_state = common::create_test_state().await;
 
     let state = TestState {
-        db: Arc::new(db),
-        mongo,
-        redis: redis.clone(),
+        db: Arc::new(app_state.db().clone()),
+        mongo: app_state.mongo().clone(),
+        redis: app_state.redis().clone(),
     };
 
     // This state can now be used with ANY API that requires these traits!
