@@ -104,9 +104,17 @@ uuid = { version = '1.18', features = ['serde', 'v4', 'v7'] }
 validator = { version = '0.20', features = ['derive'] }
 walkdir = '2.5'
 
+# Fast dev builds - what the article recommends
+[profile.dev]
+incremental = true
+codegen-units = 16    # Parallel compilation
+opt-level = 0         # No optimization for speed
+
+# Optimized release builds - slow compile, fast binary
 [profile.release]
 opt-level = 'z'
 codegen-units = 1
 strip = true
 lto = true
 panic = 'abort'
+incremental = false   # Explicit: LTO doesn't benefit from incremental

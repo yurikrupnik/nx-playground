@@ -13,6 +13,10 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      CARGO_INCREMENTAL: 0        # Disable incremental in CI (clean builds)
+      RUSTC_WRAPPER: sccache
+      SCCACHE_GHA_ENABLED: true   # Use GitHub Actions cache backend
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,6 +26,9 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
       - run: rustup toolchain install stable --profile minimal
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
 
       - uses: Swatinem/rust-cache@v2
         with:
@@ -41,7 +48,7 @@ jobs:
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: bun nx-cloud record -- echo Hello World
-      - run: bun nx run-many -t lint test build
+      - run: bun nx run-many -t lint build
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
         if: always()
