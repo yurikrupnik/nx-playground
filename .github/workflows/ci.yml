@@ -9,6 +9,7 @@ on:
 permissions:
   actions: read
   contents: read
+  id-token: write  # Required for Workload Identity Federation
 
 jobs:
   main:
@@ -16,7 +17,9 @@ jobs:
     env:
       CARGO_INCREMENTAL: 0        # Disable incremental in CI (clean builds)
       RUSTC_WRAPPER: sccache
-      SCCACHE_GHA_ENABLED: true   # Use GitHub Actions cache backend
+      SCCACHE_GCS_BUCKET: ${{ vars.SCCACHE_GCS_BUCKET }}
+      SCCACHE_GCS_RW_MODE: READ_WRITE
+      SCCACHE_GCS_KEY_PREFIX: sccache
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,6 +29,13 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
       - run: rustup toolchain install stable --profile minimal
+
+      # Authenticate to GCP using Workload Identity Federation
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - name: Setup sccache
         uses: mozilla-actions/sccache-action@v0.0.9
