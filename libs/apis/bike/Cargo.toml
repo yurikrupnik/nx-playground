@@ -12,7 +12,7 @@ redis.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 services = { path = "../../services" }
-sqlx = { workspace = true, features = ["postgres", "runtime-tokio-rustls", "macros", "chrono", "uuid"] }
+sqlx = { workspace = true }
 tokio.workspace = true
 utoipa.workspace = true
 uuid = { workspace = true, features = ["serde", "v4"] }
