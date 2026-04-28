@@ -1,64 +1,14 @@
-// Import library modules
-use zerg_api::{config as app_config, db, routes, state};
-
-use tower_http::{
-    cors::CorsLayer,
-    trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer},
-};
-use tracing::Level;
-
-use app_config::{Config, Environment};
-use tracing::info;
-use tracing_subscriber::EnvFilter;
-
-/// Initialize tracing with environment-aware configuration
-///
-/// - **Production** (`APP_ENV=production`):
-///   - JSON format (for log aggregation tools like ELK, Datadog, CloudWatch)
-///   - Hides module targets for cleaner logs
-///
-/// - **Development** (default):
-///   - Pretty-printed format (human-readable)
-///   - Shows module targets for debugging
-///
-/// Environment variables:
-/// - `APP_ENV`: Set to "production" for JSON logs (default: "development")
-/// - `RUST_LOG`: Override log levels (e.g., "debug", "zerg_api=trace")
-pub fn init_tracing(environment: &Environment) {
-    let is_production = environment.is_production();
-
-    // Create a filter with granular defaults
-    let filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| {
-        if is_production {
-            // Production: Less verbose, focus on warnings and errors
-            EnvFilter::new("info,tower_http=info,sea_orm=warn")
-        } else {
-            // Development: More verbose for debugging
-            EnvFilter::new("debug,tower_http=debug,sea_orm=info")
-        }
-    });
-
-    if is_production {
-        // Production: JSON format for log aggregation
-        tracing_subscriber::fmt()
-            .json()
-            .with_env_filter(filter)
-            .with_target(false) // Hide module paths in production
-            .init();
-    } else {
-        // Development: Pretty format for readability
-        tracing_subscriber::fmt()
-            .with_env_filter(filter)
-            .with_target(true) // Show module paths for debugging
-            .pretty()
-            .init();
-    }
-
-    info!("Tracing initialized. Environment: {:?}", environment);
-}
+use app::app::{create_app, create_router};
+use app_config::Config;
+use config::tracing::init_tracing;
+use eyre::{Result, WrapErr};
+use mongodb::Client;
+use services::{postgres, redis};
+use sqlx::PgPool;
+use zerg_api::{api, config as app_config, migrator::Migrator, openapi::ApiDoc, state};
 
 #[tokio::main]
-async fn main() -> eyre::Result<()> {
+async fn main() -> Result<()> {
     color_eyre::install()?;
     // Load configuration from environment variables
     let config = Config::from_env()?;
@@ -66,34 +16,53 @@ async fn main() -> eyre::Result<()> {
     // Initialize tracing with environment-aware configuration
     init_tracing(&config.environment);
 
-    tracing::info!("Starting Zerg API server...");
-
-    // Connect to database
-    let db = db::connect(&config.database.url).await?;
-    tracing::info!("Connected to database");
+    // Connect to PostgreSQL, MongoDB, and Redis
+    let (postgres_pool, mongo_db, redis_manager, sqlx_pool) = tokio::try_join!(
+        async {
+            postgres::connect(&config.database.url)
+                .await
+                .wrap_err("Failed to connect to Postgres")
+        },
+        async {
+            let mongo_uri = std::env::var("MONGODB_URI")
+                .unwrap_or_else(|_| "mongodb://localhost:27017".to_string());
+            let mongo_client = Client::with_uri_str(&mongo_uri)
+                .await
+                .wrap_err("Failed to connect to MongoDB")?;
+            let db_name = std::env::var("MONGODB_DB_NAME").unwrap_or_else(|_| "zerg".to_string());
+            Ok::<_, eyre::Report>(mongo_client.database(&db_name))
+        },
+        async {
+            redis::connect(&config.redis.host)
+                .await
+                .wrap_err("Failed to connect to Redis")
+        },
+        async {
+            PgPool::connect(&config.database.url)
+                .await
+                .wrap_err("Failed to connect to Postgres via sqlx")
+        }
+    )?;
 
     // Run migrations
-    db::run_migrations(&db).await?;
+    postgres::run_migrations::<Migrator>(&postgres_pool, env!("CARGO_PKG_NAME")).await?;
+
+    // Initialize bikes table
+    apis_bike::controller::init_bikes_table(&sqlx_pool)
+        .await
+        .wrap_err("Failed to initialize bikes table")?;
 
     // Create an application state
-    let app_state = state::AppState::new(db);
+    let app_state = state::AppState::new(postgres_pool, mongo_db, redis_manager, sqlx_pool);
 
-    // Build router with middleware
-    let app = routes::create_router()
-        .layer(
-            TraceLayer::new_for_http()
-                .make_span_with(DefaultMakeSpan::new().level(Level::INFO))
-                .on_response(DefaultOnResponse::new().level(Level::INFO)),
-        )
-        .layer(CorsLayer::permissive())
-        .with_state(app_state);
+    // Create API routes
+    let api_routes = api::routes();
 
-    // Start server
-    let address = config.server.address();
-    tracing::info!("Listening on {}", address);
+    // Build a router with middleware using generic create_router
+    let app = create_router::<ApiDoc, state::AppState>(app_state, api_routes).await?;
 
-    let listener = tokio::net::TcpListener::bind(&address).await?;
-    axum::serve(listener, app).await?;
+    // Start a server using generic create_app
+    create_app(app, &config.server).await?;
 
     Ok(())
 }

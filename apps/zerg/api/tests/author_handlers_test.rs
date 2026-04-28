@@ -12,11 +12,11 @@ use zerg_api::{
     dto::author::{AuthorResponseDto, CreateAuthorDto, UpdateAuthorDto},
     entities::author,
     handlers::authors::{create_author, delete_author, get_author, list_authors, update_author},
-    state::AppState,
+    state::{AppState, AppStateBuilder},
     utils::field_selector::FieldSelector,
 };
 
-fn setup_mock_state_with_authors() -> AppState {
+async fn setup_mock_state_with_authors() -> AppState {
     let author1 = author::Model {
         id: Uuid::parse_str("550e8400-e29b-41d4-a716-446655440001").unwrap(),
         name: "J.K. Rowling".to_string(),
@@ -44,12 +44,18 @@ fn setup_mock_state_with_authors() -> AppState {
         }])
         .into_connection();
 
-    AppState::new(db)
+    AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build()
 }
 
 #[tokio::test]
 async fn test_list_authors() {
-    let state = setup_mock_state_with_authors();
+    let state = setup_mock_state_with_authors().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -69,7 +75,7 @@ async fn test_list_authors() {
 
 #[tokio::test]
 async fn test_list_authors_with_field_selection() {
-    let state = setup_mock_state_with_authors();
+    let state = setup_mock_state_with_authors().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -106,7 +112,13 @@ async fn test_get_author_by_id() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -129,7 +141,13 @@ async fn test_get_author_not_found() {
         .append_query_results([Vec::<author::Model>::new()])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -160,7 +178,13 @@ async fn test_create_author() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let payload = CreateAuthorDto {
         name: "New Author".to_string(),
         bio: Some("A new author biography".to_string()),
@@ -201,7 +225,13 @@ async fn test_update_author() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let payload = UpdateAuthorDto {
         name: Some("Updated Name".to_string()),
         bio: Some("Updated bio".to_string()),
@@ -232,7 +262,13 @@ async fn test_delete_author() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
 
     let result = delete_author(State(state), Path(author_id))
         .await

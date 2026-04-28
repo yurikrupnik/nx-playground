@@ -1,6 +1,7 @@
 use config::{database::DatabaseConfig, server::ServerConfig, FromEnv};
 
 // Re-export Environment for use in other modules
+use config::redis::RedisConfig;
 pub use config::Environment;
 
 /// Application-specific configuration
@@ -8,6 +9,7 @@ pub use config::Environment;
 #[derive(Clone, Debug)]
 pub struct Config {
     pub database: DatabaseConfig,
+    pub redis: RedisConfig,
     pub server: ServerConfig,
     pub environment: Environment,
 }
@@ -20,9 +22,11 @@ impl Config {
         let environment = Environment::from_env();
         let database = DatabaseConfig::from_env()?; // Required - will fail if not set
         let server = ServerConfig::from_env()?; // Uses defaults: HOST=0.0.0.0, PORT=8080
+        let redis = RedisConfig::from_env()?; // Uses defaults: HOST=0.0.0.0, PORT=8080
 
         Ok(Self {
             database,
+            redis,
             server,
             environment,
         })

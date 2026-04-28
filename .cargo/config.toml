@@ -1,2 +1,3 @@
 [build]
 target-dir = 'dist/target'
+rustc-wrapper = "sccache"

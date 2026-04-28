@@ -1,0 +1,19 @@
+[package]
+name = "models_project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = { workspace = true }
+field-selector = { workspace = true }
+proc_macros = { workspace = true, features = ["api_resource", "selectable_fields", "sea_orm_resource"] }
+sea-orm = { workspace = true }
+serde = { workspace = true }
+services = { workspace = true }
+sqlx = { workspace = true }
+typeshare = { workspace = true }
+utoipa = { workspace = true }
+uuid = { workspace = true }
+validator = { workspace = true }
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

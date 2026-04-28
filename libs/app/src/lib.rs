@@ -1,8 +1,10 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
-}
+pub mod app;
+pub mod audit;
+pub mod errors;
+pub mod extractors;
+pub mod handlers;
+pub mod health;
+pub mod middleware;
+pub mod responses;
+pub mod shutdown;
+pub mod state;

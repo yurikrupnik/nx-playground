@@ -5,6 +5,9 @@ pub use selectable_fields::SelectableFields;
 #[cfg(feature = "api_resource")]
 pub use api_resource::ApiResource;
 
+#[cfg(feature = "sea_orm_resource")]
+pub use sea_orm_resource::SeaOrmResource;
+
 /// Trait for REST API resource metadata.
 ///
 /// This trait provides constants for resource URLs, database collection names,

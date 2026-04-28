@@ -12,12 +12,12 @@ use zerg_api::{
     dto::user::{CreateUserDto, UpdateUserDto, UserResponseDto},
     entities::user,
     handlers::users::{create_user, delete_user, get_user, list_users, update_user},
-    state::AppState,
+    state::{AppState, AppStateBuilder},
     utils::field_selector::FieldSelector,
 };
 
 /// Helper to create a mock database with predefined users
-fn setup_mock_state_with_users() -> AppState {
+async fn setup_mock_state_with_users() -> AppState {
     let user1 = user::Model {
         id: Uuid::parse_str("550e8400-e29b-41d4-a716-446655440001").unwrap(),
         username: "alice".to_string(),
@@ -47,12 +47,19 @@ fn setup_mock_state_with_users() -> AppState {
         }])
         .into_connection();
 
-    AppState::new(db)
+    // ✅ Use builder - Redis will be mocked automatically
+    AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build()
 }
 
 #[tokio::test]
 async fn test_list_users_returns_all_users() {
-    let state = setup_mock_state_with_users();
+    let state = setup_mock_state_with_users().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -72,7 +79,7 @@ async fn test_list_users_returns_all_users() {
 
 #[tokio::test]
 async fn test_list_users_with_field_selection() {
-    let state = setup_mock_state_with_users();
+    let state = setup_mock_state_with_users().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -110,7 +117,13 @@ async fn test_get_user_by_id() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -134,7 +147,13 @@ async fn test_get_user_not_found() {
         .append_query_results([Vec::<user::Model>::new()]) // Empty result
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -150,7 +169,7 @@ async fn test_get_user_not_found() {
 
 #[tokio::test]
 async fn test_field_selector_validates_invalid_fields() {
-    let state = setup_mock_state_with_users();
+    let state = setup_mock_state_with_users().await;
     let auth = AuthContext {
         user_id: None,
         role: UserRole::Anonymous,
@@ -169,7 +188,7 @@ async fn test_field_selector_validates_invalid_fields() {
 
 #[tokio::test]
 async fn test_rbac_field_filtering() {
-    let state = setup_mock_state_with_users();
+    let state = setup_mock_state_with_users().await;
 
     // Anonymous user requesting all fields
     let auth_anon = AuthContext {
@@ -208,7 +227,13 @@ async fn test_create_user() {
         }]])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let payload = CreateUserDto {
         username: "newuser".to_string(),
         email: "newuser@example.com".to_string(),
@@ -252,7 +277,13 @@ async fn test_update_user() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
     let payload = UpdateUserDto {
         username: Some("updatedusername".to_string()),
         email: Some("updated@example.com".to_string()),
@@ -285,7 +316,13 @@ async fn test_delete_user() {
         }])
         .into_connection();
 
-    let state = AppState::new(db);
+    let state = AppStateBuilder::new()
+        .with_db(db)
+        .with_mongo_mock()
+        .await
+        .with_redis_mock()
+        .await
+        .build();
 
     let result = delete_user(State(state), Path(user_id))
         .await

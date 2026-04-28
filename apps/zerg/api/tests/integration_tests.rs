@@ -91,11 +91,15 @@ async fn test_integration_list_users() {
         .expect("Failed to list users");
 
     let users: Vec<UserResponseDto> = serde_json::from_value(result.0).unwrap();
-    assert_eq!(users.len(), 2);
+    // 3 seeded users + 2 created in test = 5 total
+    assert_eq!(users.len(), 5);
 
     let usernames: Vec<&str> = users.iter().map(|u| u.username.as_str()).collect();
     assert!(usernames.contains(&"alice"));
     assert!(usernames.contains(&"bob"));
+    assert!(usernames.contains(&"admin"));
+    assert!(usernames.contains(&"john_doe"));
+    assert!(usernames.contains(&"jane_smith"));
 }
 
 #[tokio::test]
@@ -281,9 +285,10 @@ async fn test_integration_field_selection() {
         .expect("Failed to list users");
 
     let users: Vec<serde_json::Value> = serde_json::from_value(result.0).unwrap();
-    assert_eq!(users.len(), 1);
+    // 3 seeded users + 1 created in test = 4 total
+    assert_eq!(users.len(), 4);
 
-    // Verify only requested fields are present
+    // Verify only requested fields are present (check first user)
     assert!(users[0].get("id").is_some());
     assert!(users[0].get("username").is_some());
     assert!(users[0].get("email").is_none());

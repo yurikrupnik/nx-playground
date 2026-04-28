@@ -13,5 +13,7 @@ quote = { workspace = true }
 syn = { workspace = true }
 
 [dev-dependencies]
+field-selector = { workspace = true }
 proc_macros = { workspace = true, features = ["selectable_fields"] }
+serde = { workspace = true }
 trybuild = { workspace = true }

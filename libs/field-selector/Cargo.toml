@@ -1,0 +1,19 @@
+[package]
+name = "field-selector"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+axum = ["dep:axum", "dep:axum-extra"]
+
+[dependencies]
+
+# Optional axum dependencies
+axum = { workspace = true, optional = true }
+axum-extra = { workspace = true, optional = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }

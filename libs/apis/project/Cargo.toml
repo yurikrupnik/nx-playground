@@ -4,5 +4,35 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+app = { workspace = true }
+axum = { workspace = true }
+chrono = { workspace = true }
+#events = { path = "../../events" }
+field-selector = { workspace = true, features = ["axum"] }
+http = { workspace = true }
+models_project = { workspace = true }
+#models = { workspace = true }
+proc_macros = { workspace = true, features = ["api_resource", "sea_orm_resource"] }
+r2d2 = { workspace = true }
+redis = { workspace = true }
+sea-orm = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+services = { workspace = true }
+sqlx = { workspace = true }
+tracing = { workspace = true }
+utoipa = { workspace = true }
+uuid = { workspace = true }
+validator = { workspace = true }
+
+[dev-dependencies]
+axum = { workspace = true }
+serde_json = { workspace = true }
+services = { workspace = true }
+sqlx = { workspace = true }
+testcontainers = { workspace = true }
+testcontainers-modules = { workspace = true }
+tokio = { workspace = true }
+tower = { workspace = true }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

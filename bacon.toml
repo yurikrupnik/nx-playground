@@ -17,6 +17,15 @@ allow_warnings = true
 background = false
 on_change_strategy = "kill_then_restart"
 
+[jobs.zerg-email]
+command = ["cargo", "run", "-p", "zerg_email", "--bin", "zerg_email", "--color", "always"]
+need_stdout = true
+watch = ["apps/zerg/email", "libs"]
+allow_warnings = true
+background = false
+on_change_strategy = "kill_then_restart"
+env = { PORT = "7777" }
+
 [jobs.terran-api]
 command = ["cargo", "run", "-p", "terran_api", "--color", "always"]
 need_stdout = true

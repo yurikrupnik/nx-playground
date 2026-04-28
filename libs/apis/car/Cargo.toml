@@ -1,0 +1,24 @@
+[package]
+name = "apis_car"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+app = { workspace = true }
+axum = { workspace = true }
+chrono = { workspace = true }
+http = { workspace = true }
+mongodb = { workspace = true }
+proc_macros = { workspace = true }
+redis = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+utoipa = { workspace = true, features = ["chrono"] }
+validator = { workspace = true }
+
+[dev-dependencies]
+services = { workspace = true }
+testcontainers = { workspace = true }
+testcontainers-modules = { workspace = true }
+tokio = { workspace = true }

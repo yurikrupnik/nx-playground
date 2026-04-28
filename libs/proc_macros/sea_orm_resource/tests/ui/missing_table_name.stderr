@@ -1,0 +1,5 @@
+error: SeaOrmResource requires #[sea_orm(table_name = "...")] attribute
+ --> tests/ui/missing_table_name.rs:6:12
+  |
+6 | pub struct Model {
+  |            ^^^^^

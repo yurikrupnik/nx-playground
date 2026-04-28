@@ -181,10 +181,10 @@ fn impl_selectable_fields(receiver: SelectableInput) -> proc_macro2::TokenStream
 
             // Determine role requirement
             let role = match field.role.as_deref() {
-                Some("user") | Some("User") => quote! { crate::auth_context::UserRole::User },
-                Some("admin") | Some("Admin") => quote! { crate::auth_context::UserRole::Admin },
+                Some("user") | Some("User") => quote! { field_selector::UserRole::User },
+                Some("admin") | Some("Admin") => quote! { field_selector::UserRole::Admin },
                 Some("anonymous") | Some("Anonymous") | None => {
-                    quote! { crate::auth_context::UserRole::Anonymous }
+                    quote! { field_selector::UserRole::Anonymous }
                 }
                 Some(other) => panic!(
                     "Invalid role '{}'. Must be 'anonymous', 'user', or 'admin'",
@@ -193,7 +193,7 @@ fn impl_selectable_fields(receiver: SelectableInput) -> proc_macro2::TokenStream
             };
 
             field_access_items.push(quote! {
-                crate::utils::field_selector::FieldAccess {
+                field_selector::FieldAccess {
                     field: #field_name,
                     required_role: #role,
                 }
@@ -202,7 +202,7 @@ fn impl_selectable_fields(receiver: SelectableInput) -> proc_macro2::TokenStream
     }
 
     quote! {
-        impl crate::utils::field_selector::SelectableFields for #ident {
+        impl field_selector::SelectableFields for #ident {
             fn available_fields() -> Vec<&'static str> {
                 vec![#(#available_fields),*]
             }
@@ -211,7 +211,7 @@ fn impl_selectable_fields(receiver: SelectableInput) -> proc_macro2::TokenStream
                 vec![#(#restricted_fields),*]
             }
 
-            fn field_access() -> Vec<crate::utils::field_selector::FieldAccess> {
+            fn field_access() -> Vec<field_selector::FieldAccess> {
                 vec![
                     #(#field_access_items),*
                 ]
@@ -239,8 +239,7 @@ mod tests {
         let output = impl_selectable_fields(receiver);
         let output_str = output.to_string();
 
-        assert!(output_str
-            .contains("impl crate :: utils :: field_selector :: SelectableFields for User"));
+        assert!(output_str.contains("impl field_selector :: SelectableFields for User"));
         assert!(output_str.contains(r#"vec ! ["id" , "email"]"#));
         assert!(output_str.contains("UserRole :: Anonymous"));
     }

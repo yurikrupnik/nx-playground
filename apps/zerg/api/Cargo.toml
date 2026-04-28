@@ -11,6 +11,10 @@ name = "zerg_api"
 path = "src/main.rs"
 
 [dependencies]
+apis_bike = { workspace = true }
+apis_car = { workspace = true }
+apis_project = { workspace = true }
+app = { workspace = true }
 argon2 = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
@@ -19,11 +23,18 @@ color-eyre = "0.6"
 config = { workspace = true }  # Shared config library
 eyre = { workspace = true }
 eyre-span = "0.1.0"
+field-selector = { workspace = true, features = ["axum"] }
+mongodb = { workspace = true }
 proc_macros = { workspace = true, features = ["selectable_fields"] }
+redis = { workspace = true }
 sea-orm = { workspace = true }
 sea-orm-migration = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+services = { workspace = true }
+sqlx = { workspace = true }
+testcontainers = { workspace = true }  # For test helpers in state.rs
+testcontainers-modules = { workspace = true }  # For test helpers in state.rs
 thiserror = { workspace = true }
 tokio = { workspace = true }
 tower = { workspace = true }
@@ -41,7 +52,9 @@ axum-test = "18.2"  # Helper for testing Axum applications
 pretty_assertions = "1.4"  # Better assertion output
 reqwest = { version = "0.12", features = ["json"] }  # HTTP client for e2e tests
 rstest = "0.26"  # Parameterized testing
-testcontainers = "0.25"  # Run containers for integration tests
-testcontainers-modules = { version = "0.13", features = ["postgres"] }  # Postgres test container
+services = { workspace = true }
+testcontainers = { workspace = true }  # Run containers for integration tests
+testcontainers-modules = { workspace = true }  # Database test containers
+tower = { workspace = true }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
